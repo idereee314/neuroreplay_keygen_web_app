@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NeuroReplay Keygen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+/* ── Reset & Base ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #080b12;
+  --surface:  #0d1220;
+  --panel:    #111827;
+  --border:   rgba(255,255,255,.07);
+  --border2:  rgba(255,255,255,.12);
+  --text:     #e2e8f4;
+  --muted:    #4b5a75;
+  --accent:   #3b82f6;
+  --accent2:  #06b6d4;
+  --green:    #10d98a;
+  --amber:    #f59e0b;
+  --red:      #ef4444;
+  --font-ui:  'Syne', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  overflow: hidden;
+}
+
+/* ── Background grid ──────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(59,130,246,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Login Screen ─────────────────────────────────────── */
+#loginScreen {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+  background: var(--bg);
+}
+
+.login-card {
+  width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  padding: 36px 32px;
+  position: relative;
+  box-shadow: 0 0 80px rgba(59,130,246,.08), 0 32px 64px rgba(0,0,0,.6);
+}
+
+.login-card::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+
+.login-logo {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 28px;
+}
+.login-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #f97316, #ef4444);
+  box-shadow: 0 0 12px rgba(239,68,68,.6);
+  flex-shrink: 0;
+}
+.login-logo h1 {
+  font-size: 16px; font-weight: 800; letter-spacing: -.01em;
+}
+.login-logo p {
+  font-size: 10px; color: var(--muted); font-family: var(--font-mono);
+  letter-spacing: .08em; text-transform: uppercase;
+}
+
+.login-title {
+  font-size: 22px; font-weight: 800; margin-bottom: 6px;
+  background: linear-gradient(135deg, #e2e8f4 0%, #94a3b8 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.login-sub {
+  font-size: 12px; color: var(--muted); margin-bottom: 28px;
+  font-family: var(--font-mono);
+}
+
+.l-field { margin-bottom: 14px; }
+.l-field label {
+  display: block; font-size: 10px; font-weight: 700;
+  color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
+  margin-bottom: 6px;
+}
+.l-field input {
+  width: 100%; padding: 10px 13px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text);
+  font-family: var(--font-mono); font-size: 13px;
+  outline: none; transition: border-color .15s, box-shadow .15s;
+}
+.l-field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+}
+
+.login-btn {
+  width: 100%; padding: 12px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff; border: none; border-radius: 8px;
+  font-family: var(--font-ui); font-size: 13px; font-weight: 700;
+  cursor: pointer; margin-top: 8px;
+  transition: opacity .15s, transform .1s;
+  letter-spacing: .02em;
+}
+.login-btn:hover { opacity: .9; transform: translateY(-1px); }
+.login-btn:active { transform: translateY(0); }
+.login-btn:disabled { opacity: .5; cursor: default; transform: none; }
+
+.login-err {
+  margin-top: 12px; font-size: 11px; color: var(--red);
+  font-family: var(--font-mono); min-height: 16px; text-align: center;
+}
+
+/* ── App Shell ────────────────────────────────────────── */
+#appShell {
+  display: none;
+  height: 100vh;
+  flex-direction: column;
+  position: relative; z-index: 1;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── Header ───────────────────────────────────────────── */
+.header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 20px 11px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: rgba(8,11,18,.8);
+  backdrop-filter: blur(8px);
+}
+.dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  background: radial-gradient(circle at 30% 30%, #f97316, #ef4444);
+  box-shadow: 0 0 10px rgba(239,68,68,.5);
+}
+.header-text h1 { font-size: 14px; font-weight: 800; letter-spacing: -.01em; }
+.header-text p  { font-size: 10px; color: var(--muted); font-family: var(--font-mono); letter-spacing: .06em; }
+
+.header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+.warn-badge {
+  font-size: 10px; color: var(--amber);
+  background: rgba(245,158,11,.07);
+  border: 1px solid rgba(245,158,11,.18);
+  border-radius: 4px; padding: 2px 8px;
+  font-family: var(--font-mono);
+}
+
+.user-info {
+  display: flex; align-items: center; gap: 7px;
+}
+.user-email {
+  font-size: 10px; color: var(--muted); font-family: var(--font-mono);
+  max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.logout-btn {
+  font-size: 10px; color: var(--muted);
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border); border-radius: 4px;
+  padding: 3px 8px; cursor: pointer;
+  font-family: var(--font-ui); font-weight: 600;
+  transition: color .12s, border-color .12s;
+}
+.logout-btn:hover { color: var(--red); border-color: rgba(239,68,68,.3); }
+
+/* ── Tabs ─────────────────────────────────────────────── */
+.tabs {
+  display: flex; border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: rgba(8,11,18,.6);
+}
+.tab {
+  flex: 1; padding: 10px; text-align: center;
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  cursor: pointer; border-bottom: 2px solid transparent;
+  transition: all .15s; letter-spacing: .04em; text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── Tab content ──────────────────────────────────────── */
+.tab-content { display: none; flex: 1; overflow-y: auto; flex-direction: column; }
+.tab-content.active { display: flex; }
+.form { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+
+/* ── Fields ───────────────────────────────────────────── */
+.field label {
+  display: block; font-size: 10px; font-weight: 700;
+  color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
+  margin-bottom: 5px; font-family: var(--font-mono);
+}
+.field input[type=text], .field input[type=date] {
+  width: 100%; padding: 9px 12px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 7px; color: var(--text);
+  font-size: 13px; font-family: var(--font-mono);
+  outline: none; transition: border-color .15s, box-shadow .15s;
+}
+.field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59,130,246,.1);
+}
+.field input.error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(239,68,68,.08); }
+
+.date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.presets { display: flex; gap: 5px; margin-top: 5px; }
+.presets span { font-size: 10px; color: var(--muted); align-self: center; font-family: var(--font-mono); }
+.preset {
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px; background: transparent;
+  color: var(--muted); font-size: 11px; cursor: pointer;
+  font-family: var(--font-mono); font-weight: 600;
+  transition: all .12s;
+}
+.preset:hover { border-color: var(--accent); color: var(--text); background: rgba(59,130,246,.08); }
+
+.err-msg { font-size: 11px; color: var(--red); min-height: 16px; font-family: var(--font-mono); }
+
+/* ── Result boxes ─────────────────────────────────────── */
+.result { display: none; border-radius: 9px; padding: 12px 14px; flex-shrink: 0; }
+.result.show { display: block; }
+.result-lic { background: rgba(16,217,138,.05); border: 1px solid rgba(16,217,138,.2); }
+.result-key { background: rgba(59,130,246,.05); border: 1px solid rgba(59,130,246,.2); }
+.result-title { font-size: 11px; font-weight: 700; margin-bottom: 9px; letter-spacing: .04em; }
+.result-lic .result-title { color: var(--green); }
+.result-key .result-title { color: var(--accent); }
+.rrow { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 4px; }
+.rlabel {
+  font-size: 10px; color: var(--muted); min-width: 70px;
+  text-transform: uppercase; letter-spacing: .05em;
+  font-family: var(--font-mono); padding-top: 1px;
+}
+.rval { font-size: 11px; color: var(--text); flex: 1; word-break: break-all; font-family: var(--font-mono); }
+.rval.key-val { font-size: 12px; color: var(--accent); letter-spacing: .06em; }
+.rval.path-val { color: var(--green); font-size: 11px; }
+
+.copy-btn {
+  margin-top: 9px; padding: 6px 14px;
+  border: 1px solid rgba(59,130,246,.25);
+  border-radius: 6px; background: rgba(59,130,246,.08);
+  color: var(--accent); font-size: 11px; font-weight: 700;
+  cursor: pointer; transition: all .12s; width: 100%;
+  font-family: var(--font-mono);
+}
+.copy-btn:hover { background: rgba(59,130,246,.16); }
+.copy-btn.copied { color: var(--green); border-color: rgba(16,217,138,.25); background: rgba(16,217,138,.06); }
+
+.lic-dl-btn {
+  margin-top: 7px; padding: 6px 14px;
+  border: 1px solid rgba(16,217,138,.25);
+  border-radius: 6px; background: rgba(16,217,138,.07);
+  color: var(--green); font-size: 11px; font-weight: 700;
+  cursor: pointer; transition: all .12s; width: 100%;
+  font-family: var(--font-mono);
+}
+.lic-dl-btn:hover { background: rgba(16,217,138,.14); }
+
+/* ── Generate button ──────────────────────────────────── */
+.gen-btn {
+  width: 100%; padding: 12px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff; border: none; border-radius: 9px;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: opacity .15s, transform .1s;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  flex-shrink: 0; font-family: var(--font-ui); letter-spacing: .02em;
+}
+.gen-btn:hover:not(:disabled) { opacity: .9; transform: translateY(-1px); }
+.gen-btn:active:not(:disabled) { transform: translateY(0); }
+.gen-btn:disabled { opacity: .45; cursor: default; }
+
+/* ── History ──────────────────────────────────────────── */
+.hist-section { flex-shrink: 0; border-top: 1px solid var(--border); }
+.hist-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 20px; cursor: pointer; transition: background .1s;
+}
+.hist-hdr:hover { background: rgba(255,255,255,.025); }
+.hist-title {
+  font-size: 10px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .08em;
+  display: flex; align-items: center; gap: 5px;
+  font-family: var(--font-mono);
+}
+.hist-actions { display: flex; gap: 4px; align-items: center; }
+.hist-act-btn {
+  font-size: 10px; color: var(--muted); background: transparent;
+  border: none; cursor: pointer; padding: 2px 6px; font-family: var(--font-ui); font-weight: 600;
+  transition: color .12s;
+}
+.hist-act-btn:hover { color: var(--text); }
+.hist-act-btn.danger:hover { color: var(--red); }
+
+.hist-body { max-height: 130px; overflow-y: auto; padding: 0 20px 8px; }
+.hist-item {
+  display: flex; align-items: center; gap: 7px;
+  padding: 5px 7px; border-radius: 5px; font-size: 11px;
+  border: 1px solid transparent; transition: background .1s;
+}
+.hist-item:hover { background: rgba(255,255,255,.03); border-color: var(--border); }
+.hist-badge {
+  font-size: 9px; padding: 1px 6px; border-radius: 3px;
+  flex-shrink: 0; font-family: var(--font-mono); font-weight: 700; letter-spacing: .04em;
+}
+.hist-lic { background: rgba(16,217,138,.1); color: var(--green); }
+.hist-key { background: rgba(59,130,246,.1); color: var(--accent); }
+.hist-ev {
+  flex: 1; font-weight: 600; color: #c0cce0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: var(--font-mono); font-size: 10px;
+}
+.hist-dt { color: var(--amber); font-size: 10px; flex-shrink: 0; font-family: var(--font-mono); }
+.hist-user { color: var(--muted); font-size: 9px; flex-shrink: 0; font-family: var(--font-mono); }
+.hist-empty { font-size: 11px; color: var(--muted); text-align: center; padding: 10px 0; font-family: var(--font-mono); }
+
+/* ── Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1e2b3a; border-radius: 2px; }
+
+/* ── Toast ────────────────────────────────────────────── */
+#toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(60px);
+  background: var(--panel); border: 1px solid var(--border2);
+  border-radius: 8px; padding: 8px 18px;
+  font-size: 12px; font-family: var(--font-mono);
+  color: var(--text); z-index: 999;
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+  pointer-events: none; white-space: nowrap;
+}
+#toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN SCREEN ══════════════════════════════════════ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-dot"></div>
+      <div>
+        <h1>NeuroReplay Keygen</h1>
+        <p>License Generator · Internal</p>
+      </div>
+    </div>
+    <div class="login-title">Нэвтрэх</div>
+    <div class="login-sub">// Зөвхөн Ideree дотоод хэрэглэгчид</div>
+
+    <div class="l-field">
+      <label>И-мэйл</label>
+      <input type="email" id="loginEmail" placeholder="user@ideree.mn" autocomplete="email" />
+    </div>
+    <div class="l-field">
+      <label>Нууц үг</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">Нэвтрэх →</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- ══ APP SHELL ══════════════════════════════════════════ -->
+<div id="appShell">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="dot"></div>
+    <div class="header-text">
+      <h1>NeuroReplay Keygen</h1>
+      <p>License Generator</p>
+    </div>
+    <div class="header-right">
+      <div class="warn-badge">⚠ Ideree дотоод</div>
+      <div class="user-info">
+        <span class="user-email" id="userEmail"></span>
+        <button class="logout-btn" onclick="doLogout()">Гарах</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" id="tab1" onclick="switchTab(1)">▸ .lic Файл</div>
+    <div class="tab" id="tab2" onclick="switchTab(2)">⌘ License Key</div>
+  </div>
+
+  <!-- ── TAB 1: .lic file ── -->
+  <div class="tab-content active" id="content1">
+    <div class="form">
+      <div class="field">
+        <label>Тэмцээний нэр</label>
+        <input type="text" id="licEvent" placeholder="3rd JJAU Regional Championship 2026" />
+      </div>
+      <div class="date-row">
+        <div class="field">
+          <label>Эхлэх огноо</label>
+          <input type="date" id="licStart" />
+        </div>
+        <div class="field">
+          <label>Дуусах огноо</label>
+          <input type="date" id="licEnd" />
+        </div>
+      </div>
+      <div class="presets">
+        <span>Хурдан:</span>
+        <button class="preset" onclick="licAddDays(1)">+1</button>
+        <button class="preset" onclick="licAddDays(3)">+3</button>
+        <button class="preset" onclick="licAddDays(7)">+7</button>
+        <button class="preset" onclick="licAddDays(30)">+30</button>
+      </div>
+      <div class="err-msg" id="licErr"></div>
+      <div class="result result-lic" id="licResult">
+        <div class="result-title">// .lic файл бэлэн боллоо</div>
+        <div class="rrow"><span class="rlabel">event</span><span class="rval" id="licResEvent"></span></div>
+        <div class="rrow"><span class="rlabel">period</span><span class="rval" id="licResDates" style="color:var(--amber)"></span></div>
+        <div class="rrow"><span class="rlabel">size</span><span class="rval path-val" id="licResSize"></span></div>
+        <button class="lic-dl-btn" id="licDlBtn">↓ .lic Файл татах</button>
+      </div>
+      <div style="flex:1"></div>
+      <button class="gen-btn" id="licBtn" onclick="generateLic()">🎫 .lic Файл Үүсгэх</button>
+    </div>
+  </div>
+
+  <!-- ── TAB 2: License Key ── -->
+  <div class="tab-content" id="content2">
+    <div class="form">
+      <div class="field">
+        <label>Machine ID (16 тэмдэгт, хэрэглэгчийн илгээсэн)</label>
+        <input type="text" id="keyHwid" placeholder="839ACE0A9244337A" maxlength="16"
+               oninput="this.value=this.value.toUpperCase().replace(/[^A-F0-9]/g,'')" />
+      </div>
+      <div class="date-row">
+        <div class="field">
+          <label>Эхлэх огноо</label>
+          <input type="date" id="keyStart" />
+        </div>
+        <div class="field">
+          <label>Дуусах огноо</label>
+          <input type="date" id="keyEnd" />
+        </div>
+      </div>
+      <div class="presets">
+        <span>Хурдан:</span>
+        <button class="preset" onclick="keyAddDays(7)">+7</button>
+        <button class="preset" onclick="keyAddDays(30)">+30</button>
+        <button class="preset" onclick="keyAddDays(90)">+90</button>
+        <button class="preset" onclick="keyAddDays(365)">+1 жил</button>
+      </div>
+      <div class="err-msg" id="keyErr"></div>
+      <div class="result result-key" id="keyResult">
+        <div class="result-title">// License Key үүслээ</div>
+        <div class="rrow"><span class="rlabel">hwid</span><span class="rval" id="keyResHwid"></span></div>
+        <div class="rrow"><span class="rlabel">period</span><span class="rval" id="keyResDates" style="color:var(--amber)"></span></div>
+        <div class="rrow"><span class="rlabel">key</span><span class="rval key-val" id="keyResKey"></span></div>
+        <button class="copy-btn" id="copyKeyBtn" onclick="copyKey()">📋 Key хуулах</button>
+      </div>
+      <div style="flex:1"></div>
+      <button class="gen-btn" id="keyBtn" onclick="generateKey()">🔑 License Key Үүсгэх</button>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="hist-section">
+    <div class="hist-hdr" onclick="toggleHist()">
+      <span class="hist-title">
+        <span id="histCaret">▸</span> Өмнөх license-үүд
+        <span id="histCount" style="color:var(--muted)"></span>
+      </span>
+      <div class="hist-actions" onclick="event.stopPropagation()">
+        <button class="hist-act-btn" onclick="exportHist()">↓ Export</button>
+        <button class="hist-act-btn danger" onclick="clearHist()">Устгах</button>
+      </div>
+    </div>
+    <div class="hist-body" id="histBody" style="display:none"></div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ══ CONFIG — энд Supabase тохиргоогоо оруул ══════════════
+const SUPABASE_URL  = 'YOUR_SUPABASE_URL';   // жишээ: https://xxxx.supabase.co
+const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY';
+
+const HMAC_SECRET = 'NR-JJ-2025-IDEREE-SECRET-CHANGE-ME';
+
+// ══ Init Supabase ═════════════════════════════════════════
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+let currentUser = null;
+let hist = [];
+let histOpen = false;
+let _licBlob = null, _licFilename = '';
+
+// ══ Auth ══════════════════════════════════════════════════
+sb.auth.onAuthStateChange(async (event, session) => {
+  if (session?.user) {
+    currentUser = session.user;
+    showApp();
+  } else {
+    currentUser = null;
+    showLogin();
+  }
+});
+
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  const err   = document.getElementById('loginErr');
+  const btn   = document.getElementById('loginBtn');
+
+  err.textContent = '';
+  if (!email || !pass) { err.textContent = '❌ И-мэйл болон нууц үгээ оруулна уу.'; return; }
+
+  btn.disabled = true; btn.textContent = 'Нэвтэрч байна…';
+  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+  btn.disabled = false; btn.textContent = 'Нэвтрэх →';
+
+  if (error) {
+    err.textContent = '❌ ' + (error.message.includes('Invalid') ? 'И-мэйл эсвэл нууц үг буруу.' : error.message);
+  }
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+}
+
+function showLogin() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('appShell').style.display = 'none';
+}
+
+async function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appShell').style.display = 'flex';
+  document.getElementById('userEmail').textContent = currentUser.email;
+
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('licStart').value = today;
+  document.getElementById('keyStart').value = today;
+  licAddDays(1);
+  keyAddDays(30);
+
+  await loadHistory();
+}
+
+// Enter key on login
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    if (document.getElementById('loginScreen').style.display !== 'none') {
+      doLogin();
+      return;
+    }
+    const active = document.querySelector('.tab-content.active');
+    if (active?.id === 'content1') generateLic();
+    else generateKey();
+  }
+});
+
+// ══ Crypto helpers (Web Crypto API) ══════════════════════
+async function hmacHex(message) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw', enc.encode(HMAC_SECRET),
+    { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+  );
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(message));
+  return Array.from(new Uint8Array(sig)).map(b => b.toString(16).padStart(2,'0')).join('').toUpperCase();
+}
+
+async function sha256(str) {
+  const enc  = new TextEncoder();
+  const buf  = await crypto.subtle.digest('SHA-256', enc.encode(str));
+  return new Uint8Array(buf);
+}
+
+async function aesEncrypt(obj, keyBytes) {
+  const iv  = crypto.getRandomValues(new Uint8Array(16));
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw', keyBytes, { name: 'AES-CBC' }, false, ['encrypt']
+  );
+  const ct = await crypto.subtle.encrypt(
+    { name: 'AES-CBC', iv }, key, enc.encode(JSON.stringify(obj))
+  );
+  const result = new Uint8Array(16 + ct.byteLength);
+  result.set(iv, 0);
+  result.set(new Uint8Array(ct), 16);
+  return result;
+}
+
+async function generateLicBytes(event, start, end) {
+  const issued  = new Date().toISOString().slice(0,10);
+  const payload = `${event}|${start}|${end}|${issued}`;
+  const sigFull = await hmacHex(payload);
+  const sig     = sigFull.slice(0, 32);
+  const obj     = { event, start, end, issued, sig };
+  const aesKey  = await sha256(HMAC_SECRET);
+  return aesEncrypt(obj, aesKey);
+}
+
+async function generateKeyStr(hwid, start, end) {
+  const st  = start.replace(/-/g,'').slice(0,8);
+  const et  = end.replace(/-/g,'').slice(0,8);
+  const msg = hwid.toUpperCase() + st + et;
+  const hex = await hmacHex(msg);
+  return st + et + hex.slice(0,24);  // 40 chars
+}
+
+// ══ Tab ══════════════════════════════════════════════════
+function switchTab(n) {
+  [1,2].forEach(i => {
+    document.getElementById('tab'+i).classList.toggle('active', i===n);
+    document.getElementById('content'+i).classList.toggle('active', i===n);
+  });
+}
+
+// ══ Date helpers ══════════════════════════════════════════
+function licAddDays(n) {
+  const base = document.getElementById('licStart').value || new Date().toISOString().slice(0,10);
+  const d = new Date(base); d.setDate(d.getDate()+n);
+  document.getElementById('licEnd').value = d.toISOString().slice(0,10);
+}
+function keyAddDays(n) {
+  const base = document.getElementById('keyStart').value || new Date().toISOString().slice(0,10);
+  const d = new Date(base); d.setDate(d.getDate()+n);
+  document.getElementById('keyEnd').value = d.toISOString().slice(0,10);
+}
+
+// ══ Generate .lic ══════════════════════════════════════════
+async function generateLic() {
+  const event = document.getElementById('licEvent').value.trim();
+  const start = document.getElementById('licStart').value;
+  const end   = document.getElementById('licEnd').value;
+  const err   = document.getElementById('licErr');
+  const btn   = document.getElementById('licBtn');
+
+  err.textContent = '';
+  document.getElementById('licEvent').classList.remove('error');
+
+  if (!event) {
+    err.textContent = '❌ Тэмцээний нэр оруулна уу.';
+    document.getElementById('licEvent').classList.add('error'); return;
+  }
+  if (!start || !end) { err.textContent = '❌ Огноо оруулна уу.'; return; }
+  if (end < start)    { err.textContent = '❌ Дуусах огноо буруу байна.'; return; }
+
+  btn.disabled = true; btn.textContent = '⏳ Үүсгэж байна…';
+
+  try {
+    const bytes    = await generateLicBytes(event, start, end);
+    const safe     = event.replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_\-]/g,'');
+    _licFilename   = `${safe}_${start}_${end}_neuroreplay.lic`;
+    _licBlob       = new Blob([bytes], { type: 'application/octet-stream' });
+
+    document.getElementById('licResEvent').textContent = event;
+    document.getElementById('licResDates').textContent = `${start}  →  ${end}`;
+    document.getElementById('licResSize').textContent  = `${bytes.length} bytes`;
+    document.getElementById('licResult').className = 'result result-lic show';
+
+    // Wire up download button
+    const dlBtn = document.getElementById('licDlBtn');
+    dlBtn.onclick = () => {
+      const url = URL.createObjectURL(_licBlob);
+      const a = document.createElement('a');
+      a.href = url; a.download = _licFilename; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    };
+
+    await saveHistoryItem({ type:'lic', event, start, end });
+  } catch(e) {
+    err.textContent = '❌ Алдаа: ' + e.message;
+  }
+
+  btn.disabled = false; btn.textContent = '🎫 .lic Файл Үүсгэх';
+}
+
+// ══ Generate Key ══════════════════════════════════════════
+async function generateKey() {
+  const hwid  = document.getElementById('keyHwid').value.trim().toUpperCase();
+  const start = document.getElementById('keyStart').value;
+  const end   = document.getElementById('keyEnd').value;
+  const err   = document.getElementById('keyErr');
+  const btn   = document.getElementById('keyBtn');
+
+  err.textContent = '';
+  document.getElementById('keyHwid').classList.remove('error');
+
+  if (hwid.length !== 16) {
+    err.textContent = '❌ Machine ID 16 тэмдэгт байх ёстой.';
+    document.getElementById('keyHwid').classList.add('error'); return;
+  }
+  if (!start || !end) { err.textContent = '❌ Огноо оруулна уу.'; return; }
+  if (end < start)    { err.textContent = '❌ Дуусах огноо буруу байна.'; return; }
+
+  btn.disabled = true; btn.textContent = '⏳ Үүсгэж байна…';
+
+  try {
+    const key = await generateKeyStr(hwid, start, end);
+
+    document.getElementById('keyResHwid').textContent  = hwid;
+    document.getElementById('keyResDates').textContent = `${start}  →  ${end}`;
+    document.getElementById('keyResKey').textContent   = key;
+    document.getElementById('keyResult').className = 'result result-key show';
+
+    // Auto copy
+    await navigator.clipboard.writeText(key).catch(() => {});
+    const copyBtn = document.getElementById('copyKeyBtn');
+    copyBtn.textContent = '✅ Clipboard-д хуулагдлаа!';
+    copyBtn.className = 'copy-btn copied';
+    setTimeout(() => { copyBtn.textContent = '📋 Key хуулах'; copyBtn.className = 'copy-btn'; }, 2000);
+
+    await saveHistoryItem({ type:'key', hwid, start, end });
+  } catch(e) {
+    err.textContent = '❌ Алдаа: ' + e.message;
+  }
+
+  btn.disabled = false; btn.textContent = '🔑 License Key Үүсгэх';
+}
+
+function copyKey() {
+  const key = document.getElementById('keyResKey').textContent;
+  if (!key) return;
+  navigator.clipboard.writeText(key).then(() => {
+    const btn = document.getElementById('copyKeyBtn');
+    btn.textContent = '✅ Хуулагдлаа!'; btn.className = 'copy-btn copied';
+    setTimeout(() => { btn.textContent = '📋 Key хуулах'; btn.className = 'copy-btn'; }, 1500);
+  });
+}
+
+// ══ History (Supabase) ════════════════════════════════════
+async function loadHistory() {
+  const { data, error } = await sb
+    .from('keygen_history')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(100);
+  if (error) { console.warn('History load error:', error.message); hist = []; }
+  else hist = data || [];
+  renderHist();
+}
+
+async function saveHistoryItem(item) {
+  const row = {
+    type:       item.type,
+    event_name: item.event || null,
+    hwid:       item.hwid  || null,
+    start_date: item.start,
+    end_date:   item.end,
+    created_by: currentUser?.email || 'unknown'
+  };
+  const { error } = await sb.from('keygen_history').insert(row);
+  if (error) { showToast('⚠ History хадгалж чадсангүй'); console.warn(error); }
+  else { await loadHistory(); }
+}
+
+function toggleHist() {
+  histOpen = !histOpen;
+  document.getElementById('histBody').style.display = histOpen ? 'block' : 'none';
+  document.getElementById('histCaret').textContent  = histOpen ? '▾' : '▸';
+}
+
+async function clearHist() {
+  if (!hist.length || !confirm('Бүх түүхийг устгах уу?')) return;
+  await sb.from('keygen_history').delete().neq('id', 0);
+  hist = [];
+  renderHist();
+}
+
+function exportHist() {
+  if (!hist.length) { showToast('Түүх хоосон байна.'); return; }
+  const json = JSON.stringify(hist, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `neuroreplay-history-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function renderHist() {
+  const body  = document.getElementById('histBody');
+  const count = document.getElementById('histCount');
+  count.textContent = hist.length ? `(${hist.length})` : '';
+  if (!hist.length) {
+    body.innerHTML = '<div class="hist-empty">// Одоохондоо хоосон байна.</div>';
+    return;
+  }
+  body.innerHTML = hist.map((item) => {
+    const label = item.type === 'lic' ? '.LIC' : 'KEY';
+    const name  = item.event_name || item.hwid || '—';
+    const dates = `${item.start_date}→${item.end_date}`;
+    const who   = item.created_by ? item.created_by.split('@')[0] : '';
+    return `
+      <div class="hist-item">
+        <span class="hist-badge ${item.type==='lic'?'hist-lic':'hist-key'}">${label}</span>
+        <span class="hist-ev" title="${name}">${name}</span>
+        <span class="hist-dt">${dates}</span>
+        <span class="hist-user">${who}</span>
+      </div>`;
+  }).join('');
+}
+
+// ══ Toast ══════════════════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
