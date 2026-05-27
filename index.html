@@ -609,7 +609,7 @@ body::before {
       </span>
       <div class="hist-actions" onclick="event.stopPropagation()">
         <button class="hist-act-btn" onclick="exportHist()">↓ Export</button>
-        <button class="hist-act-btn danger" onclick="clearHist()">Устгах</button>
+        <button class="hist-act-btn danger" onclick="deleteSelectedHist()">Сонгосныг устгах</button>
       </div>
     </div>
     <div class="hist-body" id="histBody" style="display:none"></div>
@@ -1039,7 +1039,6 @@ function renderHist() {
     const notesLine = item.notes ? `<div class="hist-meta-notes">${item.notes}</div>` : '';
     const orgRow = orgLine ? `<div class="hist-meta">${orgLine}</div>` : '';
     const paidBtn = `<label class="hist-paid-label">
-      <input type="checkbox" class="hist-paid-check" ${isPaid ? 'checked' : ''} onchange="togglePaid(${item.id}, ${isPaid})">
       <span>${isPaid ? 'Төлсөн' : 'Төлөөгүй'}</span>
     </label>`;
     const keyRow  = item.generated_key ? `
@@ -1050,17 +1049,64 @@ function renderHist() {
     return `
       <div class="hist-item" style="flex-direction:column;align-items:flex-start;gap:4px">
         <div style="display:flex;align-items:center;gap:7px;width:100%">
+          <input type="checkbox" class="hist-select" value="${item.id}" onclick="event.stopPropagation()">
           <span class="hist-badge ${item.type==='lic'?'hist-lic':'hist-key'}">${label}</span>
           <span class="hist-ev" title="${name}">${name}</span>
           <span class="hist-dt">${dates}</span>
           <span class="hist-user">${who}</span>
           ${paidBtn}
+          <button class="hist-copy-btn" onclick="deleteHistItem(${item.id}); event.stopPropagation()">🗑</button>
         </div>
         ${keyRow}
         ${orgRow}
         ${notesLine}
       </div>`;
   }).join('');
+}
+
+async function deleteHistItem(id) {
+  if (!confirm('Энэ license history-г устгах уу?')) return;
+
+  const { error } = await sb
+    .from('keygen_history')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    showToast('⚠ Устгаж чадсангүй');
+    console.warn(error);
+    return;
+  }
+
+  showToast('✅ Устгалаа');
+  await loadHistory();
+}
+
+async function deleteSelectedHist() {
+  const ids = Array.from(document.querySelectorAll('.hist-select:checked'))
+    .map(el => Number(el.value))
+    .filter(Boolean);
+
+  if (!ids.length) {
+    showToast('Устгах license сонгоно уу.');
+    return;
+  }
+
+  if (!confirm(`${ids.length} license history устгах уу?`)) return;
+
+  const { error } = await sb
+    .from('keygen_history')
+    .delete()
+    .in('id', ids);
+
+  if (error) {
+    showToast('⚠ Сонгосон history-г устгаж чадсангүй');
+    console.warn(error);
+    return;
+  }
+
+  showToast('✅ Сонгосон history устлаа');
+  await loadHistory();
 }
 
 async function togglePaid(id, currentVal) {
