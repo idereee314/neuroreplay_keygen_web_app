@@ -346,6 +346,22 @@ body::before {
 .hist-user { color: var(--muted); font-size: 9px; flex-shrink: 0; font-family: var(--font-mono); }
 .hist-empty { font-size: 11px; color: var(--muted); text-align: center; padding: 10px 0; font-family: var(--font-mono); }
 
+.hist-key-row {
+  display: flex; align-items: center; gap: 6px;
+  width: 100%; padding: 3px 0 0 0;
+}
+.hist-key-val {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--accent); letter-spacing: .06em;
+  flex: 1; word-break: break-all;
+}
+.hist-copy-btn {
+  background: transparent; border: none;
+  cursor: pointer; font-size: 12px; padding: 2px 4px;
+  opacity: .6; transition: opacity .12s; flex-shrink: 0;
+}
+.hist-copy-btn:hover { opacity: 1; }
+
 /* ── Scrollbar ────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -704,7 +720,7 @@ async function generateLic() {
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     };
 
-    await saveHistoryItem({ type:'lic', event, start, end });
+    await saveHistoryItem({ type:'lic', event, start, end, generated_key: null });
   } catch(e) {
     err.textContent = '❌ Алдаа: ' + e.message;
   }
@@ -747,7 +763,7 @@ async function generateKey() {
     copyBtn.className = 'copy-btn copied';
     setTimeout(() => { copyBtn.textContent = '📋 Key хуулах'; copyBtn.className = 'copy-btn'; }, 2000);
 
-    await saveHistoryItem({ type:'key', hwid, start, end });
+    await saveHistoryItem({ type:'key', hwid, start, end, generated_key: key });
   } catch(e) {
     err.textContent = '❌ Алдаа: ' + e.message;
   }
@@ -779,12 +795,13 @@ async function loadHistory() {
 
 async function saveHistoryItem(item) {
   const row = {
-    type:       item.type,
-    event_name: item.event || null,
-    hwid:       item.hwid  || null,
-    start_date: item.start,
-    end_date:   item.end,
-    created_by: currentUser?.email || 'unknown'
+    type:          item.type,
+    event_name:    item.event || null,
+    hwid:          item.hwid  || null,
+    start_date:    item.start,
+    end_date:      item.end,
+    generated_key: item.generated_key || null,
+    created_by:    currentUser?.email || 'unknown'
   };
   const { error } = await sb.from('keygen_history').insert(row);
   if (error) { showToast('⚠ History хадгалж чадсангүй'); console.warn(error); }
@@ -829,12 +846,20 @@ function renderHist() {
     const name  = item.event_name || item.hwid || '—';
     const dates = `${item.start_date}→${item.end_date}`;
     const who   = item.created_by ? item.created_by.split('@')[0] : '';
+    const keyRow = item.generated_key ? `
+      <div class="hist-key-row">
+        <span class="hist-key-val">${item.generated_key}</span>
+        <button class="hist-copy-btn" onclick="copyHistKey(this, '${item.generated_key}')">📋</button>
+      </div>` : '';
     return `
-      <div class="hist-item">
-        <span class="hist-badge ${item.type==='lic'?'hist-lic':'hist-key'}">${label}</span>
-        <span class="hist-ev" title="${name}">${name}</span>
-        <span class="hist-dt">${dates}</span>
-        <span class="hist-user">${who}</span>
+      <div class="hist-item" style="flex-direction:column;align-items:flex-start;gap:4px">
+        <div style="display:flex;align-items:center;gap:7px;width:100%">
+          <span class="hist-badge ${item.type==='lic'?'hist-lic':'hist-key'}">${label}</span>
+          <span class="hist-ev" title="${name}">${name}</span>
+          <span class="hist-dt">${dates}</span>
+          <span class="hist-user">${who}</span>
+        </div>
+        ${keyRow}
       </div>`;
   }).join('');
 }
