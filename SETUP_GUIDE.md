@@ -112,15 +112,33 @@ https://your-username.github.io
 
 ---
 
+## 8. Edge Function — серверийн гарын үсэг (ЗААВАЛ)
+
+⚠️ Лицензийг **browser дотор биш, Supabase Edge Function дотор** гарын үсэг
+зурдаг. Хувийн түлхүүр browser руу хэзээ ч хүрэхгүй. Тохиргоог
+`LICENSE_GENERATION_GUIDE.md`-ийн **1-р хэсгээс** дэлгэрэнгүй үзнэ үү. Товчоор:
+
+```bash
+supabase login
+supabase link --project-ref emopxwgbxwibchyiklpw
+supabase secrets set NR_PRIVATE_KEY_B64="<nr-private.pem-ээс гаргасан base64>"
+supabase functions deploy sign-license
+```
+
+Function-ий код: `supabase/functions/sign-license/index.ts`.
+
+---
+
 ## Дуусгавар
 
 | Зүйл | Байдал |
 |------|--------|
 | Login | Supabase Auth (email + нууц үг) |
-| .lic файл | Browser-д үүсгэж download |
-| License Key | Browser-д үүсгэж clipboard |
+| Гарын үсэг | **Edge Function (сервер тал)** — Ed25519, хувийн түлхүүр secret |
+| .lic файл | Edge Function-аас token авч browser-д download |
+| License Key | Edge Function-аас token авч clipboard |
 | History | Supabase DB, бүх хэрэглэгч харна |
-| Хамгаалалт | RLS — зөвхөн нэвтэрсэн хэрэглэгч |
+| Хамгаалалт | RLS + зөвхөн нэвтэрсэн хэрэглэгч function дуудна |
 
 ---
 

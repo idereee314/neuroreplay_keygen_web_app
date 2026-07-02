@@ -625,7 +625,9 @@ body::before {
 const SUPABASE_URL  = 'https://emopxwgbxwibchyiklpw.supabase.co';   // жишээ: https://xxxx.supabase.co
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtb3B4d2dieHdpYmNoeWlrbHB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MzA2NzIsImV4cCI6MjA5NTQwNjY3Mn0.NewSLFAHdKLk9p-leBVeRsOgP6LAWZao5aaurbm1JK8';
 
-const HMAC_SECRET = 'NR-JJ-2025-IDEREE-SECRET-CHANGE-ME';
+// License SIGNING happens server-side in the `sign-license` Edge Function so
+// the Ed25519 private key never reaches the browser. No signing secret here.
+const SIGN_FN_URL = `${SUPABASE_URL}/functions/v1/sign-license`;
 
 const EMAILJS_PUBLIC_KEY  = 'PsBN-s2Sg1F_VRHhI';
 const EMAILJS_SERVICE_ID  = 'service_pkl4dei';
@@ -708,54 +710,35 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// ══ Crypto helpers (Web Crypto API) ══════════════════════
-async function hmacHex(message) {
-  const enc = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    'raw', enc.encode(HMAC_SECRET),
-    { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
-  );
-  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(message));
-  return Array.from(new Uint8Array(sig)).map(b => b.toString(16).padStart(2,'0')).join('').toUpperCase();
-}
-
-async function sha256(str) {
-  const enc  = new TextEncoder();
-  const buf  = await crypto.subtle.digest('SHA-256', enc.encode(str));
-  return new Uint8Array(buf);
-}
-
-async function aesEncrypt(obj, keyBytes) {
-  const iv  = crypto.getRandomValues(new Uint8Array(16));
-  const enc = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    'raw', keyBytes, { name: 'AES-CBC' }, false, ['encrypt']
-  );
-  const ct = await crypto.subtle.encrypt(
-    { name: 'AES-CBC', iv }, key, enc.encode(JSON.stringify(obj))
-  );
-  const result = new Uint8Array(16 + ct.byteLength);
-  result.set(iv, 0);
-  result.set(new Uint8Array(ct), 16);
-  return result;
+// ══ Server-side signing (Edge Function) ══════════════════
+// Sends the request to the `sign-license` function with the logged-in user's
+// access token. The private key stays on the server; the browser only ever
+// receives the finished, signed token.
+async function callSign(payload) {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) throw new Error('Дахин нэвтэрнэ үү.');
+  const res = await fetch(SIGN_FN_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session.access_token}`,
+      'apikey': SUPABASE_ANON,
+    },
+    body: JSON.stringify(payload),
+  });
+  const out = await res.json().catch(() => ({}));
+  if (!res.ok || !out.token) throw new Error(out.error || `Signing failed (${res.status})`);
+  return out.token; // base64 license token
 }
 
 async function generateLicBytes(event, start, end) {
-  const issued  = new Date().toISOString().slice(0,10);
-  const payload = `${event}|${start}|${end}|${issued}`;
-  const sigFull = await hmacHex(payload);
-  const sig     = sigFull.slice(0, 32);
-  const obj     = { event, start, end, issued, sig };
-  const aesKey  = await sha256(HMAC_SECRET);
-  return aesEncrypt(obj, aesKey);
+  const token = await callSign({ type: 'lic', event, start, end });
+  // The .lic file content is exactly the base64 token bytes (UTF-8).
+  return new TextEncoder().encode(token);
 }
 
 async function generateKeyStr(hwid, start, end) {
-  const st  = start.replace(/-/g,'').slice(0,8);
-  const et  = end.replace(/-/g,'').slice(0,8);
-  const msg = hwid.toUpperCase() + st + et;
-  const hex = await hmacHex(msg);
-  return st + et + hex.slice(0,24);  // 40 chars
+  return await callSign({ type: 'key', hwid: hwid.toUpperCase(), start, end });
 }
 
 // ══ Tab ══════════════════════════════════════════════════
