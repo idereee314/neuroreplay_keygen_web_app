@@ -45,6 +45,17 @@ create policy "auth users can delete"
 
 ---
 
+## 2b. Features багана нэмэх (Analyze mode тусдаа лиценз)
+
+Competition/Analyze-ийг тусдаа эрхээр олгохын тулд `keygen_history`-д нэг
+багана нэмнэ (одоо байгаа мөрүүдэд нөлөөлөхгүй, зөвхөн нэмэлт багана):
+
+```sql
+alter table keygen_history add column if not exists features text;
+```
+
+---
+
 ## 3. Хэрэглэгч нэмэх
 
 **Authentication → Users → Add user** → и-мэйл + нууц үг оруулна.

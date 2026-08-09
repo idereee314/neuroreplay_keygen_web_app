@@ -10,8 +10,12 @@
 //   supabase secrets set NR_PRIVATE_KEY_B64="<base64 of PKCS8 DER private key>"
 //
 // Request (POST, requires a logged-in Supabase user):
-//   { "type": "lic", "event": "...", "start": "YYYY-MM-DD", "end": "YYYY-MM-DD" }
-//   { "type": "key", "hwid": "16CHARHEX",  "start": "YYYY-MM-DD", "end": "YYYY-MM-DD" }
+//   { "type": "lic", "event": "...", "start": "YYYY-MM-DD", "end": "YYYY-MM-DD", "features": ["competition","analyze"] }
+//   { "type": "key", "hwid": "16CHARHEX",  "start": "YYYY-MM-DD", "end": "YYYY-MM-DD", "features": ["competition"] }
+// `features` is optional and defaults to ["competition"]. The signed payload
+// MUST stay byte-identical to license.js's generateLic/generateKey on the
+// desktop app (same field order, same comma-joined sorted feature list) or
+// verification there will fail.
 // Response: { "token": "<base64 license token>" }
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -63,6 +67,14 @@ function encodeToken(obj: Record<string, unknown>): string {
 }
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const ALL_FEATURES = ["competition", "analyze"];
+
+// Mirrors license.js's normalizeFeatures() exactly — dedupe, drop anything
+// not in the known set, sort, so both sides sign/verify the same string.
+function normalizeFeatures(features: unknown): string[] {
+  const list = Array.isArray(features) && features.length ? features : ["competition"];
+  return [...new Set(list)].filter((f) => ALL_FEATURES.includes(f)).sort();
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
@@ -82,14 +94,15 @@ Deno.serve(async (req) => {
     return json({ error: "Unauthorized" }, 401);
   }
 
-  let body: Record<string, string>;
+  let body: Record<string, unknown>;
   try {
     body = await req.json();
   } catch (_) {
     return json({ error: "Invalid JSON" }, 400);
   }
 
-  const { type, event, hwid, start, end } = body;
+  const { type, event, hwid, start, end } = body as Record<string, string>;
+  const features = normalizeFeatures(body.features);
   if (!DATE_RE.test(start ?? "") || !DATE_RE.test(end ?? "")) {
     return json({ error: "Bad dates (YYYY-MM-DD)" }, 400);
   }
@@ -99,15 +112,15 @@ Deno.serve(async (req) => {
     if (type === "lic") {
       if (!event) return json({ error: "event required" }, 400);
       const issued = new Date().toISOString().slice(0, 10);
-      const sig = await sign(`${event}|${start}|${end}|${issued}`);
-      return json({ token: encodeToken({ event, start, end, issued, sig }) });
+      const sig = await sign(`${event}|${start}|${end}|${issued}|${features.join(",")}`);
+      return json({ token: encodeToken({ event, start, end, issued, features, sig }) });
     }
 
     if (type === "key") {
       const id = (hwid ?? "").toUpperCase();
       if (id.length !== 16) return json({ error: "hwid must be 16 chars" }, 400);
-      const sig = await sign(`${id}|${start}|${end}`);
-      return json({ token: encodeToken({ start, end, sig }) });
+      const sig = await sign(`${id}|${start}|${end}|${features.join(",")}`);
+      return json({ token: encodeToken({ start, end, features, sig }) });
     }
 
     return json({ error: "type must be 'lic' or 'key'" }, 400);

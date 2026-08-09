@@ -520,6 +520,13 @@ body::before {
         <label>Тэмдэглэл</label>
         <input type="text" id="licNotes" placeholder="Нэмэлт мэдээлэл..." />
       </div>
+      <div class="field">
+        <label>Features</label>
+        <div style="display:flex;gap:16px;margin-top:4px">
+          <label class="paid-check-label"><input type="checkbox" id="licFeatCompetition" checked disabled /><span>Competition</span></label>
+          <label class="paid-check-label"><input type="checkbox" id="licFeatAnalyze" /><span>Analyze</span></label>
+        </div>
+      </div>
       <label class="paid-check-label"><input type="checkbox" id="licIsPaid" onchange="toggleLicEmailSection()" /><span>Төлбөр төлсөн</span></label>
 
       <div class="err-msg" id="licErr"></div>
@@ -584,6 +591,13 @@ body::before {
       <div class="field">
         <label>Тэмдэглэл</label>
         <input type="text" id="keyNotes" placeholder="Нэмэлт мэдээлэл..." />
+      </div>
+      <div class="field">
+        <label>Features</label>
+        <div style="display:flex;gap:16px;margin-top:4px">
+          <label class="paid-check-label"><input type="checkbox" id="keyFeatCompetition" checked disabled /><span>Competition</span></label>
+          <label class="paid-check-label"><input type="checkbox" id="keyFeatAnalyze" /><span>Analyze</span></label>
+        </div>
       </div>
       <label class="paid-check-label"><input type="checkbox" id="keyIsPaid" onchange="toggleKeyPaidFields()" /><span>Төлбөр төлсөн</span></label>
 
@@ -731,14 +745,14 @@ async function callSign(payload) {
   return out.token; // base64 license token
 }
 
-async function generateLicBytes(event, start, end) {
-  const token = await callSign({ type: 'lic', event, start, end });
+async function generateLicBytes(event, start, end, features) {
+  const token = await callSign({ type: 'lic', event, start, end, features });
   // The .lic file content is exactly the base64 token bytes (UTF-8).
   return new TextEncoder().encode(token);
 }
 
-async function generateKeyStr(hwid, start, end) {
-  return await callSign({ type: 'key', hwid: hwid.toUpperCase(), start, end });
+async function generateKeyStr(hwid, start, end, features) {
+  return await callSign({ type: 'key', hwid: hwid.toUpperCase(), start, end, features });
 }
 
 // ══ Tab ══════════════════════════════════════════════════
@@ -784,6 +798,8 @@ async function generateLic() {
   const licEmail = document.getElementById('licEmail').value.trim();
   const licNotes = document.getElementById('licNotes').value.trim();
   const licIsPaid = document.getElementById('licIsPaid').checked;
+  const features = ['competition'];
+  if (document.getElementById('licFeatAnalyze').checked) features.push('analyze');
 
   if (licIsPaid) {
     if (!licOrg) {
@@ -803,14 +819,14 @@ async function generateLic() {
   btn.disabled = true; btn.textContent = '⏳ Үүсгэж байна…';
 
   try {
-    const bytes    = await generateLicBytes(event, start, end);
+    const bytes    = await generateLicBytes(event, start, end, features);
     const safe     = event.replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_\-]/g,'');
     _licFilename   = `${safe}_${start}_${end}_neuroreplay.lic`;
     _licBlob       = new Blob([bytes], { type: 'application/octet-stream' });
 
     document.getElementById('licResEvent').textContent = event;
     document.getElementById('licResDates').textContent = `${start}  →  ${end}`;
-    document.getElementById('licResSize').textContent  = `${bytes.length} bytes`;
+    document.getElementById('licResSize').textContent  = `${bytes.length} bytes  ·  ${features.join(', ')}`;
     document.getElementById('licResult').className = 'result result-lic show';
 
     // Wire up download button
@@ -851,7 +867,7 @@ ${emailBody}`;
     await navigator.clipboard.writeText(fullClip).catch(() => {});
 
     await saveHistoryItem({ type:'lic', event_name: event, event, start, end, generated_key: null,
-      organization: licOrg, phone: licPhone, email: licEmail, notes: licNotes, is_paid: licIsPaid });
+      organization: licOrg, phone: licPhone, email: licEmail, notes: licNotes, is_paid: licIsPaid, features });
 
   } catch(e) {
     err.textContent = '❌ Алдаа: ' + e.message;
@@ -880,6 +896,8 @@ async function generateKey() {
 
   const keyOrg   = document.getElementById('keyOrg').value.trim();
   const keyIsPaid = document.getElementById('keyIsPaid').checked;
+  const features = ['competition'];
+  if (document.getElementById('keyFeatAnalyze').checked) features.push('analyze');
 
   if (keyIsPaid) {
     if (!keyOrg) {
@@ -901,10 +919,10 @@ async function generateKey() {
   btn.disabled = true; btn.textContent = '⏳ Үүсгэж байна…';
 
   try {
-    const key = await generateKeyStr(hwid, start, end);
+    const key = await generateKeyStr(hwid, start, end, features);
 
     document.getElementById('keyResHwid').textContent  = hwid;
-    document.getElementById('keyResDates').textContent = `${start}  →  ${end}`;
+    document.getElementById('keyResDates').textContent = `${start}  →  ${end}  ·  ${features.join(', ')}`;
     document.getElementById('keyResKey').textContent   = key;
     document.getElementById('keyResult').className = 'result result-key show';
 
@@ -919,7 +937,7 @@ async function generateKey() {
     const keyEmail = document.getElementById('keyEmail').value.trim();
     const keyNotes = document.getElementById('keyNotes').value.trim();
     await saveHistoryItem({ type:'key', hwid, start, end, generated_key: key,
-      organization: keyOrg, phone: keyPhone, email: keyEmail, notes: keyNotes, is_paid: keyIsPaid });
+      organization: keyOrg, phone: keyPhone, email: keyEmail, notes: keyNotes, is_paid: keyIsPaid, features });
     if (keyEmail && keyIsPaid) {
       await sendLicenseEmail(keyEmail, {
         org_name:    keyOrg,
@@ -972,9 +990,14 @@ async function saveHistoryItem(item) {
     email:         item.email         || null,
     notes:         item.notes         || null,
     is_paid:       item.is_paid       || false,
+    features:      (item.features && item.features.length ? item.features : ['competition']).join(','),
     created_by:    currentUser?.email || 'unknown'
   };
   const { error } = await sb.from('keygen_history').insert(row);
+  // NB: if the `features` column doesn't exist yet on keygen_history, this
+  // insert fails but the .lic/key itself was already generated & downloaded
+  // above — only the history log entry is lost. Run the ALTER TABLE in
+  // SETUP_GUIDE.md to add the column.
   if (error) { showToast('⚠ History хадгалж чадсангүй'); console.warn(error); }
   else { await loadHistory(); }
 }
@@ -1018,6 +1041,8 @@ function renderHist() {
     const dates   = `${item.start_date}→${item.end_date}`;
     const who     = item.created_by ? item.created_by.split('@')[0] : '';
     const isPaid  = item.is_paid;
+    const featBadge = item.features && item.features.includes('analyze')
+      ? '<span class="hist-badge" style="background:rgba(59,130,246,.15);color:var(--accent)">+ANALYZE</span>' : '';
     const orgLine = [item.organization, item.phone, item.email].filter(Boolean).join(' · ');
     const notesLine = item.notes ? `<div class="hist-meta-notes">${item.notes}</div>` : '';
     const orgRow = orgLine ? `<div class="hist-meta">${orgLine}</div>` : '';
@@ -1034,6 +1059,7 @@ function renderHist() {
         <div style="display:flex;align-items:center;gap:7px;width:100%">
           <input type="checkbox" class="hist-select" value="${item.id}" onclick="event.stopPropagation()">
           <span class="hist-badge ${item.type==='lic'?'hist-lic':'hist-key'}">${label}</span>
+          ${featBadge}
           <span class="hist-ev" title="${name}">${name}</span>
           <span class="hist-dt">${dates}</span>
           <span class="hist-user">${who}</span>
