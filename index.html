@@ -4,24 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NeuroReplay Keygen</title>
+<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
-/* ── Reset & Base ─────────────────────────────────────── */
+/* Reset & Base */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:       #080b12;
-  --surface:  #0d1220;
-  --panel:    #111827;
-  --border:   rgba(255,255,255,.07);
-  --border2:  rgba(255,255,255,.12);
-  --text:     #e2e8f4;
-  --muted:    #4b5a75;
-  --accent:   #3b82f6;
-  --accent2:  #06b6d4;
+  --bg:       #15121f;
+  --surface:  #1c1830;
+  --panel:    #241f3d;
+  --border:   rgba(255,255,255,.09);
+  --border2:  rgba(255,255,255,.16);
+  --text:     #ede9f7;
+  --muted:    #9089ae;
+  --accent:   #7c5cfc;
+  --accent2:  #ec4899;
   --green:    #10d98a;
   --amber:    #f59e0b;
   --red:      #ef4444;
@@ -37,19 +38,19 @@ html, body {
   overflow: hidden;
 }
 
-/* ── Background grid ──────────────────────────────────── */
+/* Background grid */
 body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(59,130,246,.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59,130,246,.03) 1px, transparent 1px);
+    linear-gradient(rgba(124,92,252,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124,92,252,.03) 1px, transparent 1px);
   background-size: 32px 32px;
   pointer-events: none;
   z-index: 0;
 }
 
-/* ── Login Screen ─────────────────────────────────────── */
+/* Login Screen */
 #loginScreen {
   position: fixed; inset: 0;
   display: flex; align-items: center; justify-content: center;
@@ -64,7 +65,7 @@ body::before {
   border-radius: 16px;
   padding: 36px 32px;
   position: relative;
-  box-shadow: 0 0 80px rgba(59,130,246,.08), 0 32px 64px rgba(0,0,0,.6);
+  box-shadow: 0 0 80px rgba(124,92,252,.08), 0 32px 64px rgba(0,0,0,.6);
 }
 
 .login-card::before {
@@ -78,11 +79,8 @@ body::before {
   display: flex; align-items: center; gap: 10px;
   margin-bottom: 28px;
 }
-.login-dot {
-  width: 10px; height: 10px; border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #f97316, #ef4444);
-  box-shadow: 0 0 12px rgba(239,68,68,.6);
-  flex-shrink: 0;
+.login-logo img {
+  height: 52px; width: auto; flex-shrink: 0;
 }
 .login-logo h1 {
   font-size: 16px; font-weight: 800; letter-spacing: -.01em;
@@ -94,7 +92,7 @@ body::before {
 
 .login-title {
   font-size: 22px; font-weight: 800; margin-bottom: 6px;
-  background: linear-gradient(135deg, #e2e8f4 0%, #94a3b8 100%);
+  background: linear-gradient(135deg, #ede9f7 0%, #b3a6e8 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .login-sub {
@@ -118,12 +116,12 @@ body::before {
 }
 .l-field input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+  box-shadow: 0 0 0 3px rgba(124,92,252,.12);
 }
 
 .login-btn {
   width: 100%; padding: 12px;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: linear-gradient(135deg, #7c5cfc, #ec4899);
   color: #fff; border: none; border-radius: 8px;
   font-family: var(--font-ui); font-size: 13px; font-weight: 700;
   cursor: pointer; margin-top: 8px;
@@ -139,7 +137,7 @@ body::before {
   font-family: var(--font-mono); min-height: 16px; text-align: center;
 }
 
-/* ── App Shell ────────────────────────────────────────── */
+/* App Shell */
 #appShell {
   display: none;
   height: 100vh;
@@ -149,19 +147,17 @@ body::before {
   margin: 0 auto;
 }
 
-/* ── Header ───────────────────────────────────────────── */
+/* Header */
 .header {
   display: flex; align-items: center; gap: 10px;
   padding: 13px 20px 11px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
-  background: rgba(8,11,18,.8);
+  background: rgba(21,18,31,.8);
   backdrop-filter: blur(8px);
 }
-.dot {
-  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-  background: radial-gradient(circle at 30% 30%, #f97316, #ef4444);
-  box-shadow: 0 0 10px rgba(239,68,68,.5);
+.header .dot {
+  height: 36px; width: auto; flex-shrink: 0;
 }
 .header-text h1 { font-size: 14px; font-weight: 800; letter-spacing: -.01em; }
 .header-text p  { font-size: 10px; color: var(--muted); font-family: var(--font-mono); letter-spacing: .06em; }
@@ -193,11 +189,24 @@ body::before {
 }
 .logout-btn:hover { color: var(--red); border-color: rgba(239,68,68,.3); }
 
-/* ── Tabs ─────────────────────────────────────────────── */
+.lang-switch {
+  display: flex; border: 1px solid var(--border); border-radius: 4px;
+  overflow: hidden; flex-shrink: 0;
+}
+.lang-btn {
+  font-size: 10px; font-weight: 700; color: var(--muted);
+  background: transparent; border: none; cursor: pointer;
+  padding: 3px 7px; font-family: var(--font-mono);
+  letter-spacing: .04em; transition: color .12s, background .12s;
+}
+.lang-btn.active { color: #fff; background: var(--accent); }
+.lang-btn:not(.active):hover { color: var(--text); }
+
+/* Tabs */
 .tabs {
   display: flex; border-bottom: 1px solid var(--border);
   flex-shrink: 0;
-  background: rgba(8,11,18,.6);
+  background: rgba(21,18,31,.6);
 }
 .tab {
   flex: 1; padding: 10px; text-align: center;
@@ -209,12 +218,12 @@ body::before {
 .tab:hover { color: var(--text); }
 .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-/* ── Tab content ──────────────────────────────────────── */
+/* Tab content */
 .tab-content { display: none; flex: 1; overflow-y: auto; flex-direction: column; }
 .tab-content.active { display: flex; }
 .form { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
 
-/* ── Fields ───────────────────────────────────────────── */
+/* Fields */
 .field label {
   display: block; font-size: 10px; font-weight: 700;
   color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
@@ -230,7 +239,7 @@ body::before {
 }
 .field input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(59,130,246,.1);
+  box-shadow: 0 0 0 3px rgba(124,92,252,.1);
 }
 .field input.error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(239,68,68,.08); }
 
@@ -246,15 +255,15 @@ body::before {
   font-family: var(--font-mono); font-weight: 600;
   transition: all .12s;
 }
-.preset:hover { border-color: var(--accent); color: var(--text); background: rgba(59,130,246,.08); }
+.preset:hover { border-color: var(--accent); color: var(--text); background: rgba(124,92,252,.08); }
 
 .err-msg { font-size: 11px; color: var(--red); min-height: 16px; font-family: var(--font-mono); }
 
-/* ── Result boxes ─────────────────────────────────────── */
+/* Result boxes */
 .result { display: none; border-radius: 9px; padding: 12px 14px; flex-shrink: 0; }
 .result.show { display: block; }
 .result-lic { background: rgba(16,217,138,.05); border: 1px solid rgba(16,217,138,.2); }
-.result-key { background: rgba(59,130,246,.05); border: 1px solid rgba(59,130,246,.2); }
+.result-key { background: rgba(124,92,252,.05); border: 1px solid rgba(124,92,252,.2); }
 .result-title { font-size: 11px; font-weight: 700; margin-bottom: 9px; letter-spacing: .04em; }
 .result-lic .result-title { color: var(--green); }
 .result-key .result-title { color: var(--accent); }
@@ -270,13 +279,13 @@ body::before {
 
 .copy-btn {
   margin-top: 9px; padding: 6px 14px;
-  border: 1px solid rgba(59,130,246,.25);
-  border-radius: 6px; background: rgba(59,130,246,.08);
+  border: 1px solid rgba(124,92,252,.25);
+  border-radius: 6px; background: rgba(124,92,252,.08);
   color: var(--accent); font-size: 11px; font-weight: 700;
   cursor: pointer; transition: all .12s; width: 100%;
   font-family: var(--font-mono);
 }
-.copy-btn:hover { background: rgba(59,130,246,.16); }
+.copy-btn:hover { background: rgba(124,92,252,.16); }
 .copy-btn.copied { color: var(--green); border-color: rgba(16,217,138,.25); background: rgba(16,217,138,.06); }
 
 .lic-dl-btn {
@@ -289,10 +298,10 @@ body::before {
 }
 .lic-dl-btn:hover { background: rgba(16,217,138,.14); }
 
-/* ── Generate button ──────────────────────────────────── */
+/* Generate button */
 .gen-btn {
   width: 100%; padding: 12px;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: linear-gradient(135deg, #7c5cfc, #ec4899);
   color: #fff; border: none; border-radius: 9px;
   font-size: 13px; font-weight: 700; cursor: pointer;
   transition: opacity .15s, transform .1s;
@@ -303,7 +312,7 @@ body::before {
 .gen-btn:active:not(:disabled) { transform: translateY(0); }
 .gen-btn:disabled { opacity: .45; cursor: default; }
 
-/* ── History ──────────────────────────────────────────── */
+/* History */
 .hist-section { flex-shrink: 0; border-top: 1px solid var(--border); }
 .hist-hdr {
   display: flex; align-items: center; justify-content: space-between;
@@ -337,9 +346,9 @@ body::before {
   flex-shrink: 0; font-family: var(--font-mono); font-weight: 700; letter-spacing: .04em;
 }
 .hist-lic { background: rgba(16,217,138,.1); color: var(--green); }
-.hist-key { background: rgba(59,130,246,.1); color: var(--accent); }
+.hist-key { background: rgba(124,92,252,.1); color: var(--accent); }
 .hist-ev {
-  flex: 1; font-weight: 600; color: #c0cce0;
+  flex: 1; font-weight: 600; color: #d7d2ec;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   font-family: var(--font-mono); font-size: 10px;
 }
@@ -384,7 +393,7 @@ body::before {
   font-family: var(--font-mono); flex: 1;
 }
 .lic-copy-part-btn:hover { background: rgba(16,217,138,.15); }
-.lic-copy-part-btn.copied { color: var(--accent); border-color: rgba(59,130,246,.3); background: rgba(59,130,246,.07); }
+.lic-copy-part-btn.copied { color: var(--accent); border-color: rgba(124,92,252,.3); background: rgba(124,92,252,.07); }
 
 .hist-meta {
   font-family: var(--font-mono); font-size: 10px;
@@ -392,7 +401,7 @@ body::before {
 }
 .hist-meta-notes {
   font-family: var(--font-mono); font-size: 10px;
-  color: #5a6a85; font-style: italic; padding: 1px 0;
+  color: #7a7398; font-style: italic; padding: 1px 0;
 }
 .hist-paid-label {
   display: flex; align-items: center; gap: 5px;
@@ -406,12 +415,12 @@ body::before {
   accent-color: var(--green);
 }
 
-/* ── Scrollbar ────────────────────────────────────────── */
+/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #1e2b3a; border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: #362f52; border-radius: 2px; }
 
-/* ── Toast ────────────────────────────────────────────── */
+/* Toast */
 #toast {
   position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(60px);
   background: var(--panel); border: 1px solid var(--border2);
@@ -426,99 +435,107 @@ body::before {
 </head>
 <body>
 
-<!-- ══ LOGIN SCREEN ══════════════════════════════════════ -->
+<!-- LOGIN SCREEN -->
 <div id="loginScreen">
   <div class="login-card">
+    <div class="lang-switch" style="position:absolute;top:14px;right:14px">
+      <button class="lang-btn" id="langBtnMn" onclick="setLang('mn')">MN</button>
+      <button class="lang-btn" id="langBtnEn" onclick="setLang('en')">EN</button>
+    </div>
     <div class="login-logo">
-      <div class="login-dot"></div>
+      <img src="assets/images/logo.png" alt="NeuroReplay" />
       <div>
         <h1>NeuroReplay Keygen</h1>
-        <p>License Generator</p>
+        <p data-i18n="subtitle">License Generator</p>
       </div>
     </div>
-    <div class="login-title">Нэвтрэх</div>
+    <div class="login-title" data-i18n="loginTitle">Нэвтрэх</div>
     <!-- <div class="login-sub">// Зөвхөн Ideree дотоод хэрэглэгчид</div> -->
 
     <div class="l-field">
-      <label>И-мэйл</label>
+      <label data-i18n="email">И-мэйл</label>
       <input type="email" id="loginEmail" placeholder="user@ideree.mn" autocomplete="email" />
     </div>
     <div class="l-field">
-      <label>Нууц үг</label>
+      <label data-i18n="password">Нууц үг</label>
       <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" />
     </div>
 
-    <button class="login-btn" id="loginBtn" onclick="doLogin()">Нэвтрэх →</button>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()" data-i18n="loginBtn">Нэвтрэх →</button>
     <div class="login-err" id="loginErr"></div>
   </div>
 </div>
 
-<!-- ══ APP SHELL ══════════════════════════════════════════ -->
+<!-- APP SHELL -->
 <div id="appShell">
 
   <!-- Header -->
   <div class="header">
-    <div class="dot"></div>
+    <img class="dot" src="assets/images/logo.png" alt="NeuroReplay" />
     <div class="header-text">
       <h1>NeuroReplay Keygen</h1>
-      <p>License Generator</p>
+      <p data-i18n="subtitle">License Generator</p>
     </div>
     <div class="header-right">
       <!-- <div class="warn-badge">⚠ Ideree дотоод</div> -->
+      <div class="lang-switch">
+        <button class="lang-btn" id="langBtnMn2" onclick="setLang('mn')">MN</button>
+        <button class="lang-btn" id="langBtnEn2" onclick="setLang('en')">EN</button>
+      </div>
       <div class="user-info">
         <span class="user-email" id="userEmail"></span>
-        <button class="logout-btn" onclick="doLogout()">Гарах</button>
+        <button class="logout-btn" onclick="doLogout()" data-i18n="logout">Гарах</button>
       </div>
     </div>
   </div>
 
   <!-- Tabs -->
   <div class="tabs">
-    <div class="tab active" id="tab1" onclick="switchTab(1)">▸ .lic Файл</div>
+    <div class="tab active" id="tab1" onclick="switchTab(1)"><span data-i18n="tabLic">▸ .lic Файл</span></div>
     <div class="tab" id="tab2" onclick="switchTab(2)">⌘ License Key</div>
   </div>
 
-  <!-- ── TAB 1: .lic file ── -->
+  <!-- TAB 1: .lic file -->
   <div class="tab-content active" id="content1">
     <div class="form">
       <div class="field">
-        <label>Тэмцээний нэр</label>
-        <input type="text" id="licEvent" placeholder="Тэмцээний нэрийг оруулна уу" />
+        <label data-i18n="eventName">Тэмцээний нэр</label>
+        <input type="text" id="licEvent" data-i18n-ph="eventNamePh" placeholder="Тэмцээний нэрийг оруулна уу" />
       </div>
       <div class="date-row">
         <div class="field">
-          <label>Эхлэх огноо</label>
+          <label data-i18n="startDate">Эхлэх огноо</label>
           <input type="date" id="licStart" />
         </div>
         <div class="field">
-          <label>Дуусах огноо</label>
+          <label data-i18n="endDate">Дуусах огноо</label>
           <input type="date" id="licEnd" />
         </div>
       </div>
       <div class="presets">
-        <span>Хурдан:</span>
+        <span data-i18n="quick">Хурдан:</span>
         <button class="preset" onclick="licAddDays(1)">+1</button>
         <button class="preset" onclick="licAddDays(3)">+3</button>
         <button class="preset" onclick="licAddDays(7)">+7</button>
         <button class="preset" onclick="licAddDays(30)">+30</button>
       </div>
       <div class="field">
-        <label>Байгууллага / Клуб</label>
-        <input type="text" id="licOrg" placeholder="Байгууллагын нэр" />
+        <label data-i18n="org">Байгууллага / Клуб</label>
+        <input type="text" id="licOrg" data-i18n-ph="orgPh" placeholder="Байгууллагын нэр" />
       </div>
       <div class="date-row">
         <div class="field">
-          <label>Утас</label>
+          <label data-i18n="phone">Утас</label>
           <input type="text" id="licPhone" placeholder="9911xxxx" />
         </div>
         <div class="field">
-          <label>И-мэйл</label>
+          <label data-i18n="email">И-мэйл</label>
           <input type="text" id="licEmail" placeholder="contact@club.mn" />
         </div>
       </div>
       <div class="field">
-        <label>Тэмдэглэл</label>
-        <input type="text" id="licNotes" placeholder="Нэмэлт мэдээлэл..." />
+        <label data-i18n="notes">Тэмдэглэл</label>
+        <input type="text" id="licNotes" data-i18n-ph="notesPh" placeholder="Нэмэлт мэдээлэл..." />
       </div>
       <div class="field">
         <label>Features</label>
@@ -527,17 +544,17 @@ body::before {
           <label class="paid-check-label"><input type="checkbox" id="licFeatAnalyze" /><span>Analyze</span></label>
         </div>
       </div>
-      <label class="paid-check-label"><input type="checkbox" id="licIsPaid" onchange="toggleLicEmailSection()" /><span>Төлбөр төлсөн</span></label>
+      <label class="paid-check-label"><input type="checkbox" id="licIsPaid" onchange="toggleLicEmailSection()" /><span data-i18n="paid">Төлбөр төлсөн</span></label>
 
       <div class="err-msg" id="licErr"></div>
       <div class="result result-lic" id="licResult">
-        <div class="result-title">// .lic файл бэлэн боллоо</div>
+        <div class="result-title" data-i18n="licReady">// .lic файл бэлэн боллоо</div>
         <div class="rrow"><span class="rlabel">event</span><span class="rval" id="licResEvent"></span></div>
         <div class="rrow"><span class="rlabel">period</span><span class="rval" id="licResDates" style="color:var(--amber)"></span></div>
         <div class="rrow"><span class="rlabel">size</span><span class="rval path-val" id="licResSize"></span></div>
-        <button class="lic-dl-btn" id="licDlBtn">↓ .lic Файл татах</button>
+        <button class="lic-dl-btn" id="licDlBtn" data-i18n="dlLicBtn">↓ .lic Файл татах</button>
         <div id="licEmailSection" style="display:none;margin-top:10px;border-top:1px solid rgba(255,255,255,.07);padding-top:10px">
-          <div style="font-size:10px;color:var(--muted);font-family:var(--font-mono);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Имэйлийн текст</div>
+          <div style="font-size:10px;color:var(--muted);font-family:var(--font-mono);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em" data-i18n="emailText">Имэйлийн текст</div>
           <div style="display:flex;gap:6px">
             <button class="lic-copy-part-btn" id="licCopySubject">📋 Subject</button>
             <button class="lic-copy-part-btn" id="licCopyBody">📋 Body</button>
@@ -545,52 +562,52 @@ body::before {
         </div>
       </div>
       <div style="flex:1"></div>
-      <button class="gen-btn" id="licBtn" onclick="generateLic()">🎫 .lic Файл Үүсгэх</button>
+      <button class="gen-btn" id="licBtn" onclick="generateLic()" data-i18n="genLicBtn">🎫 .lic Файл Үүсгэх</button>
     </div>
   </div>
 
-  <!-- ── TAB 2: License Key ── -->
+  <!-- TAB 2: License Key -->
   <div class="tab-content" id="content2">
     <div class="form">
       <div class="field">
-        <label>Machine ID (16 тэмдэгт, хэрэглэгчийн илгээсэн)</label>
+        <label data-i18n="machineId">Machine ID (16 тэмдэгт, хэрэглэгчийн илгээсэн)</label>
         <input type="text" id="keyHwid" placeholder="839ACE0A9244337A" maxlength="16"
                oninput="this.value=this.value.toUpperCase().replace(/[^A-F0-9]/g,'')" />
       </div>
       <div class="date-row">
         <div class="field">
-          <label>Эхлэх огноо</label>
+          <label data-i18n="startDate">Эхлэх огноо</label>
           <input type="date" id="keyStart" />
         </div>
         <div class="field">
-          <label>Дуусах огноо</label>
+          <label data-i18n="endDate">Дуусах огноо</label>
           <input type="date" id="keyEnd" />
         </div>
       </div>
       <div class="presets">
-        <span>Хурдан:</span>
+        <span data-i18n="quick">Хурдан:</span>
         <button class="preset" onclick="keyAddDays(7)">+7</button>
         <button class="preset" onclick="keyAddDays(30)">+30</button>
         <button class="preset" onclick="keyAddDays(90)">+90</button>
-        <button class="preset" onclick="keyAddDays(365)">+1 жил</button>
+        <button class="preset" onclick="keyAddDays(365)" data-i18n="plusYear">+1 жил</button>
       </div>
       <div class="field">
-        <label>Байгууллага / Клуб</label>
-        <input type="text" id="keyOrg" placeholder="Байгууллагын нэр" />
+        <label data-i18n="org">Байгууллага / Клуб</label>
+        <input type="text" id="keyOrg" data-i18n-ph="orgPh" placeholder="Байгууллагын нэр" />
       </div>
       <div class="date-row">
         <div class="field">
-          <label>Утас</label>
+          <label data-i18n="phone">Утас</label>
           <input type="text" id="keyPhone" placeholder="9911xxxx" />
         </div>
         <div class="field">
-          <label>И-мэйл</label>
+          <label data-i18n="email">И-мэйл</label>
           <input type="text" id="keyEmail" placeholder="contact@club.mn" />
         </div>
       </div>
       <div class="field">
-        <label>Тэмдэглэл</label>
-        <input type="text" id="keyNotes" placeholder="Нэмэлт мэдээлэл..." />
+        <label data-i18n="notes">Тэмдэглэл</label>
+        <input type="text" id="keyNotes" data-i18n-ph="notesPh" placeholder="Нэмэлт мэдээлэл..." />
       </div>
       <div class="field">
         <label>Features</label>
@@ -599,18 +616,18 @@ body::before {
           <label class="paid-check-label"><input type="checkbox" id="keyFeatAnalyze" /><span>Analyze</span></label>
         </div>
       </div>
-      <label class="paid-check-label"><input type="checkbox" id="keyIsPaid" onchange="toggleKeyPaidFields()" /><span>Төлбөр төлсөн</span></label>
+      <label class="paid-check-label"><input type="checkbox" id="keyIsPaid" onchange="toggleKeyPaidFields()" /><span data-i18n="paid">Төлбөр төлсөн</span></label>
 
       <div class="err-msg" id="keyErr"></div>
       <div class="result result-key" id="keyResult">
-        <div class="result-title">// License Key үүслээ</div>
+        <div class="result-title" data-i18n="keyReady">// License Key үүслээ</div>
         <div class="rrow"><span class="rlabel">hwid</span><span class="rval" id="keyResHwid"></span></div>
         <div class="rrow"><span class="rlabel">period</span><span class="rval" id="keyResDates" style="color:var(--amber)"></span></div>
         <div class="rrow"><span class="rlabel">key</span><span class="rval key-val" id="keyResKey"></span></div>
-        <button class="copy-btn" id="copyKeyBtn" onclick="copyKey()">📋 Key хуулах</button>
+        <button class="copy-btn" id="copyKeyBtn" onclick="copyKey()" data-i18n="copyKeyBtn">📋 Key хуулах</button>
       </div>
       <div style="flex:1"></div>
-      <button class="gen-btn" id="keyBtn" onclick="generateKey()">🔑 License Key Үүсгэх</button>
+      <button class="gen-btn" id="keyBtn" onclick="generateKey()" data-i18n="genKeyBtn">🔑 License Key Үүсгэх</button>
     </div>
   </div>
 
@@ -618,12 +635,12 @@ body::before {
   <div class="hist-section">
     <div class="hist-hdr" onclick="toggleHist()">
       <span class="hist-title">
-        <span id="histCaret">▸</span> Өмнөх license-үүд
+        <span id="histCaret">▸</span> <span data-i18n="prevLicenses">Өмнөх license-үүд</span>
         <span id="histCount" style="color:var(--muted)"></span>
       </span>
       <div class="hist-actions" onclick="event.stopPropagation()">
         <button class="hist-act-btn" onclick="exportHist()">↓ Export</button>
-        <button class="hist-act-btn danger" onclick="deleteSelectedHist()">Сонгосныг устгах</button>
+        <button class="hist-act-btn danger" onclick="deleteSelectedHist()" data-i18n="deleteSelected">Сонгосныг устгах</button>
       </div>
     </div>
     <div class="hist-body" id="histBody" style="display:none"></div>
@@ -635,19 +652,218 @@ body::before {
 <div id="toast"></div>
 
 <script>
-// ══ CONFIG — энд Supabase тохиргоогоо оруул ══════════════
-const SUPABASE_URL  = 'https://emopxwgbxwibchyiklpw.supabase.co';   // жишээ: https://xxxx.supabase.co
+// Supabase project settings
+const SUPABASE_URL  = 'https://emopxwgbxwibchyiklpw.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtb3B4d2dieHdpYmNoeWlrbHB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MzA2NzIsImV4cCI6MjA5NTQwNjY3Mn0.NewSLFAHdKLk9p-leBVeRsOgP6LAWZao5aaurbm1JK8';
 
-// License SIGNING happens server-side in the `sign-license` Edge Function so
-// the Ed25519 private key never reaches the browser. No signing secret here.
+// signing happens on the server so the private key never touches the browser
 const SIGN_FN_URL = `${SUPABASE_URL}/functions/v1/sign-license`;
 
 const EMAILJS_PUBLIC_KEY  = 'PsBN-s2Sg1F_VRHhI';
 const EMAILJS_SERVICE_ID  = 'service_pkl4dei';
 const EMAILJS_TEMPLATE_ID = 'template_xa0iwzp';
 
-// ══ Init Supabase ═════════════════════════════════════════
+// i18n
+const I18N = {
+  mn: {
+    subtitle: 'License Generator',
+    loginTitle: 'Нэвтрэх',
+    email: 'И-мэйл',
+    password: 'Нууц үг',
+    loginBtn: 'Нэвтрэх →',
+    loggingIn: 'Нэвтэрч байна…',
+    logout: 'Гарах',
+    tabLic: '▸ .lic Файл',
+    eventName: 'Тэмцээний нэр',
+    eventNamePh: 'Тэмцээний нэрийг оруулна уу',
+    startDate: 'Эхлэх огноо',
+    endDate: 'Дуусах огноо',
+    quick: 'Хурдан:',
+    org: 'Байгууллага / Клуб',
+    orgPh: 'Байгууллагын нэр',
+    phone: 'Утас',
+    notes: 'Тэмдэглэл',
+    notesPh: 'Нэмэлт мэдээлэл...',
+    paid: 'Төлбөр төлсөн',
+    licReady: '// .lic файл бэлэн боллоо',
+    dlLicBtn: '↓ .lic Файл татах',
+    emailText: 'Имэйлийн текст',
+    genLicBtn: '🎫 .lic Файл Үүсгэх',
+    generating: '⏳ Үүсгэж байна…',
+    machineId: 'Machine ID (16 тэмдэгт, хэрэглэгчийн илгээсэн)',
+    plusYear: '+1 жил',
+    keyReady: '// License Key үүслээ',
+    copyKeyBtn: '📋 Key хуулах',
+    copiedClipboard: '✅ Clipboard-д хуулагдлаа!',
+    copied: '✅ Хуулагдлаа!',
+    genKeyBtn: '🔑 License Key Үүсгэх',
+    prevLicenses: 'Өмнөх license-үүд',
+    deleteSelected: 'Сонгосныг устгах',
+    histEmpty: '// Одоохондоо хоосон байна.',
+    paidLabel: 'Төлсөн',
+    unpaidLabel: 'Төлөөгүй',
+    errFillLoginFields: '❌ И-мэйл болон нууц үгээ оруулна уу.',
+    errBadLogin: '❌ И-мэйл эсвэл нууц үг буруу.',
+    errReLogin: 'Дахин нэвтэрнэ үү.',
+    errNeedEventName: '❌ Тэмцээний нэр оруулна уу.',
+    errNeedDates: '❌ Огноо оруулна уу.',
+    errBadEndDate: '❌ Дуусах огноо буруу байна.',
+    errNeedOrg: '❌ Байгууллага / Клубийн нэр оруулна уу.',
+    errNeedPhone: '❌ Утас оруулна уу.',
+    errNeedEmail: '❌ И-мэйл оруулна уу.',
+    errNeedHwid: '❌ Machine ID 16 тэмдэгт байх ёстой.',
+    errPrefix: '❌ Алдаа: ',
+    toastHistSaveFail: '⚠ History хадгалж чадсангүй',
+    confirmClearHist: 'Бүх түүхийг устгах уу?',
+    toastHistEmpty: 'Түүх хоосон байна.',
+    confirmDeleteHistItem: 'Энэ license history-г устгах уу?',
+    toastDeleteFail: '⚠ Устгаж чадсангүй',
+    toastDeleted: '✅ Устгалаа',
+    toastSelectToDelete: 'Устгах license сонгоно уу.',
+    confirmDeleteN: (n) => `${n} license history устгах уу?`,
+    toastSelectedDeleteFail: '⚠ Сонгосон history-г устгаж чадсангүй',
+    toastSelectedDeleted: '✅ Сонгосон history устлаа',
+    toastGenericError: '⚠ Алдаа гарлаа',
+    toastEmailSent: '✅ Имэйл илгээгдлээ → ',
+    toastEmailFail: '⚠ Имэйл илгээхэд алдаа гарлаа',
+    emailSubject: (org, event) => `NeuroReplay License - ${org || event}`,
+    emailBody: ({ org, phone, start, end }) => `Сайн байна уу,
+
+Таны NeuroReplay license амжилттай үүсгэгдэж, ашиглахад бэлэн боллоо.
+
+License мэдээлэл:
+Байгууллага: ${org || '—'}
+Утас: ${phone || '—'}
+Хүчинтэй хугацаа: ${start} → ${end}
+
+📎 Хавсаргасан .lic файлыг татан авч системдээ импортлон (import) идэвхжүүлнэ үү.
+
+⚠️ Энэхүү license нь зөвхөн таны төхөөрөмжид холбогдсон тул өөр төхөөрөмж дээр ашиглах боломжгүйг анхаарна уу.
+
+License идэвхжүүлэх явцад асуудал гарвал бидэнтэй холбогдоорой.
+
+Баярлалаа.
+
+Хүндэтгэсэн,
+Идэрбат Мягмардорж
+Founder & Creator, NeuroReplay`,
+  },
+  en: {
+    subtitle: 'License Generator',
+    loginTitle: 'Log In',
+    email: 'Email',
+    password: 'Password',
+    loginBtn: 'Log In →',
+    loggingIn: 'Logging in…',
+    logout: 'Log Out',
+    tabLic: '▸ .lic File',
+    eventName: 'Event Name',
+    eventNamePh: 'Enter the event name',
+    startDate: 'Start Date',
+    endDate: 'End Date',
+    quick: 'Quick:',
+    org: 'Organization / Club',
+    orgPh: 'Organization name',
+    phone: 'Phone',
+    notes: 'Notes',
+    notesPh: 'Additional info...',
+    paid: 'Payment Received',
+    licReady: '// .lic file ready',
+    dlLicBtn: '↓ Download .lic File',
+    emailText: 'Email text',
+    genLicBtn: '🎫 Generate .lic File',
+    generating: '⏳ Generating…',
+    machineId: 'Machine ID (16 characters, sent by the user)',
+    plusYear: '+1 year',
+    keyReady: '// License Key generated',
+    copyKeyBtn: '📋 Copy Key',
+    copiedClipboard: '✅ Copied to clipboard!',
+    copied: '✅ Copied!',
+    genKeyBtn: '🔑 Generate License Key',
+    prevLicenses: 'Previous licenses',
+    deleteSelected: 'Delete Selected',
+    histEmpty: '// Nothing here yet.',
+    paidLabel: 'Paid',
+    unpaidLabel: 'Unpaid',
+    errFillLoginFields: '❌ Enter your email and password.',
+    errBadLogin: '❌ Invalid email or password.',
+    errReLogin: 'Please log in again.',
+    errNeedEventName: '❌ Enter the event name.',
+    errNeedDates: '❌ Enter the dates.',
+    errBadEndDate: '❌ End date is invalid.',
+    errNeedOrg: '❌ Enter the organization / club name.',
+    errNeedPhone: '❌ Enter the phone number.',
+    errNeedEmail: '❌ Enter the email.',
+    errNeedHwid: '❌ Machine ID must be 16 characters.',
+    errPrefix: '❌ Error: ',
+    toastHistSaveFail: '⚠ Failed to save history',
+    confirmClearHist: 'Delete all history?',
+    toastHistEmpty: 'History is empty.',
+    confirmDeleteHistItem: 'Delete this license history entry?',
+    toastDeleteFail: '⚠ Failed to delete',
+    toastDeleted: '✅ Deleted',
+    toastSelectToDelete: 'Select a license to delete.',
+    confirmDeleteN: (n) => `Delete ${n} license history entries?`,
+    toastSelectedDeleteFail: '⚠ Failed to delete selected history',
+    toastSelectedDeleted: '✅ Selected history deleted',
+    toastGenericError: '⚠ An error occurred',
+    toastEmailSent: '✅ Email sent → ',
+    toastEmailFail: '⚠ Failed to send email',
+    emailSubject: (org, event) => `NeuroReplay License - ${org || event}`,
+    emailBody: ({ org, phone, start, end }) => `Hello,
+
+Your NeuroReplay license has been successfully generated and is ready to use.
+
+License details:
+Organization: ${org || '—'}
+Phone: ${phone || '—'}
+Valid period: ${start} → ${end}
+
+📎 Please download the attached .lic file and import it into the system to activate it.
+
+⚠️ This license is bound to your device only and cannot be used on another device.
+
+If you run into any issues activating the license, please contact us.
+
+Thank you.
+
+Regards,
+Iderbat Myagmardorj
+Founder & Creator, NeuroReplay`,
+  },
+};
+
+let lang = localStorage.getItem('nr_lang') || 'mn';
+
+function t(key, ...args) {
+  const entry = (I18N[lang] && I18N[lang][key]) ?? (I18N.mn[key]);
+  return typeof entry === 'function' ? entry(...args) : entry;
+}
+
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i18n-ph'));
+  });
+  ['langBtnMn','langBtnEn','langBtnMn2','langBtnEn2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const isMn = id.includes('Mn');
+    el.classList.toggle('active', (isMn && lang === 'mn') || (!isMn && lang === 'en'));
+  });
+  if (typeof renderHist === 'function' && hist) renderHist();
+}
+
+function setLang(l) {
+  lang = l;
+  localStorage.setItem('nr_lang', l);
+  applyLang();
+}
+
+// Init Supabase
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
@@ -658,7 +874,9 @@ let hist = [];
 let histOpen = false;
 let _licBlob = null, _licFilename = '';
 
-// ══ Auth ══════════════════════════════════════════════════
+applyLang();
+
+// Auth
 sb.auth.onAuthStateChange(async (event, session) => {
   if (session?.user) {
     currentUser = session.user;
@@ -676,14 +894,14 @@ async function doLogin() {
   const btn   = document.getElementById('loginBtn');
 
   err.textContent = '';
-  if (!email || !pass) { err.textContent = '❌ И-мэйл болон нууц үгээ оруулна уу.'; return; }
+  if (!email || !pass) { err.textContent = t('errFillLoginFields'); return; }
 
-  btn.disabled = true; btn.textContent = 'Нэвтэрч байна…';
+  btn.disabled = true; btn.textContent = t('loggingIn');
   const { error } = await sb.auth.signInWithPassword({ email, password: pass });
-  btn.disabled = false; btn.textContent = 'Нэвтрэх →';
+  btn.disabled = false; btn.textContent = t('loginBtn');
 
   if (error) {
-    err.textContent = '❌ ' + (error.message.includes('Invalid') ? 'И-мэйл эсвэл нууц үг буруу.' : error.message);
+    err.textContent = error.message.includes('Invalid') ? t('errBadLogin') : '❌ ' + error.message;
   }
 }
 
@@ -724,13 +942,10 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// ══ Server-side signing (Edge Function) ══════════════════
-// Sends the request to the `sign-license` function with the logged-in user's
-// access token. The private key stays on the server; the browser only ever
-// receives the finished, signed token.
+// calls the sign-license edge function with the user's access token
 async function callSign(payload) {
   const { data: { session } } = await sb.auth.getSession();
-  if (!session) throw new Error('Дахин нэвтэрнэ үү.');
+  if (!session) throw new Error(t('errReLogin'));
   const res = await fetch(SIGN_FN_URL, {
     method: 'POST',
     headers: {
@@ -755,7 +970,7 @@ async function generateKeyStr(hwid, start, end, features) {
   return await callSign({ type: 'key', hwid: hwid.toUpperCase(), start, end, features });
 }
 
-// ══ Tab ══════════════════════════════════════════════════
+// Tab
 function switchTab(n) {
   [1,2].forEach(i => {
     document.getElementById('tab'+i).classList.toggle('active', i===n);
@@ -763,7 +978,7 @@ function switchTab(n) {
   });
 }
 
-// ══ Date helpers ══════════════════════════════════════════
+// Date helpers
 function licAddDays(n) {
   const base = document.getElementById('licStart').value || new Date().toISOString().slice(0,10);
   const d = new Date(base); d.setDate(d.getDate()+n);
@@ -775,7 +990,7 @@ function keyAddDays(n) {
   document.getElementById('keyEnd').value = d.toISOString().slice(0,10);
 }
 
-// ══ Generate .lic ══════════════════════════════════════════
+// Generate .lic
 async function generateLic() {
   const event = document.getElementById('licEvent').value.trim();
   const start = document.getElementById('licStart').value;
@@ -787,11 +1002,11 @@ async function generateLic() {
   document.getElementById('licEvent').classList.remove('error');
 
   if (!event) {
-    err.textContent = '❌ Тэмцээний нэр оруулна уу.';
+    err.textContent = t('errNeedEventName');
     document.getElementById('licEvent').classList.add('error'); return;
   }
-  if (!start || !end) { err.textContent = '❌ Огноо оруулна уу.'; return; }
-  if (end < start)    { err.textContent = '❌ Дуусах огноо буруу байна.'; return; }
+  if (!start || !end) { err.textContent = t('errNeedDates'); return; }
+  if (end < start)    { err.textContent = t('errBadEndDate'); return; }
 
   const licOrg   = document.getElementById('licOrg').value.trim();
   const licPhone = document.getElementById('licPhone').value.trim();
@@ -803,20 +1018,20 @@ async function generateLic() {
 
   if (licIsPaid) {
     if (!licOrg) {
-      err.textContent = '❌ Байгууллага / Клубийн нэр оруулна уу.';
+      err.textContent = t('errNeedOrg');
       document.getElementById('licOrg').classList.add('error'); return;
     }
     if (!licPhone) {
-      err.textContent = '❌ Утас оруулна уу.';
+      err.textContent = t('errNeedPhone');
       document.getElementById('licPhone').classList.add('error'); return;
     }
     if (!licEmail) {
-      err.textContent = '❌ И-мэйл оруулна уу.';
+      err.textContent = t('errNeedEmail');
       document.getElementById('licEmail').classList.add('error'); return;
     }
   }
 
-  btn.disabled = true; btn.textContent = '⏳ Үүсгэж байна…';
+  btn.disabled = true; btn.textContent = t('generating');
 
   try {
     const bytes    = await generateLicBytes(event, start, end, features);
@@ -839,27 +1054,8 @@ async function generateLic() {
     };
 
     // Auto copy email subject + body to clipboard
-    const emailSubject = `NeuroReplay License - ${licOrg || event}`;
-    const emailBody = `Сайн байна уу,
-
-Таны NeuroReplay license амжилттай үүсгэгдэж, ашиглахад бэлэн боллоо.
-
-License мэдээлэл:
-Байгууллага: ${licOrg || '—'}
-Утас: ${licPhone || '—'}
-Хүчинтэй хугацаа: ${start} → ${end}
-
-📎 Хавсаргасан .lic файлыг татан авч системдээ импортлон (import) идэвхжүүлнэ үү.
-
-⚠️ Энэхүү license нь зөвхөн таны төхөөрөмжид холбогдсон тул өөр төхөөрөмж дээр ашиглах боломжгүйг анхаарна уу.
-
-License идэвхжүүлэх явцад асуудал гарвал бидэнтэй холбогдоорой.
-
-Баярлалаа.
-
-Хүндэтгэсэн,
-Идэрбат Мягмардорж
-Founder & Creator, NeuroReplay`;
+    const emailSubject = t('emailSubject', licOrg, event);
+    const emailBody = t('emailBody', { org: licOrg, phone: licPhone, start, end });
 
     const fullClip = `Subject: ${emailSubject}
 
@@ -870,13 +1066,13 @@ ${emailBody}`;
       organization: licOrg, phone: licPhone, email: licEmail, notes: licNotes, is_paid: licIsPaid, features });
 
   } catch(e) {
-    err.textContent = '❌ Алдаа: ' + e.message;
+    err.textContent = t('errPrefix') + e.message;
   }
 
-  btn.disabled = false; btn.textContent = '🎫 .lic Файл Үүсгэх';
+  btn.disabled = false; btn.textContent = t('genLicBtn');
 }
 
-// ══ Generate Key ══════════════════════════════════════════
+// Generate Key
 async function generateKey() {
   const hwid  = document.getElementById('keyHwid').value.trim().toUpperCase();
   const start = document.getElementById('keyStart').value;
@@ -888,11 +1084,11 @@ async function generateKey() {
   document.getElementById('keyHwid').classList.remove('error');
 
   if (hwid.length !== 16) {
-    err.textContent = '❌ Machine ID 16 тэмдэгт байх ёстой.';
+    err.textContent = t('errNeedHwid');
     document.getElementById('keyHwid').classList.add('error'); return;
   }
-  if (!start || !end) { err.textContent = '❌ Огноо оруулна уу.'; return; }
-  if (end < start)    { err.textContent = '❌ Дуусах огноо буруу байна.'; return; }
+  if (!start || !end) { err.textContent = t('errNeedDates'); return; }
+  if (end < start)    { err.textContent = t('errBadEndDate'); return; }
 
   const keyOrg   = document.getElementById('keyOrg').value.trim();
   const keyIsPaid = document.getElementById('keyIsPaid').checked;
@@ -901,22 +1097,22 @@ async function generateKey() {
 
   if (keyIsPaid) {
     if (!keyOrg) {
-      err.textContent = '❌ Байгууллага / Клубийн нэр оруулна уу.';
+      err.textContent = t('errNeedOrg');
       document.getElementById('keyOrg').classList.add('error'); return;
     }
     const keyPhone = document.getElementById('keyPhone').value.trim();
     if (!keyPhone) {
-      err.textContent = '❌ Утас оруулна уу.';
+      err.textContent = t('errNeedPhone');
       document.getElementById('keyPhone').classList.add('error'); return;
     }
     const keyEmail = document.getElementById('keyEmail').value.trim();
     if (!keyEmail) {
-      err.textContent = '❌ И-мэйл оруулна уу.';
+      err.textContent = t('errNeedEmail');
       document.getElementById('keyEmail').classList.add('error'); return;
     }
   }
 
-  btn.disabled = true; btn.textContent = '⏳ Үүсгэж байна…';
+  btn.disabled = true; btn.textContent = t('generating');
 
   try {
     const key = await generateKeyStr(hwid, start, end, features);
@@ -929,9 +1125,9 @@ async function generateKey() {
     // Auto copy
     await navigator.clipboard.writeText(key).catch(() => {});
     const copyBtn = document.getElementById('copyKeyBtn');
-    copyBtn.textContent = '✅ Clipboard-д хуулагдлаа!';
+    copyBtn.textContent = t('copiedClipboard');
     copyBtn.className = 'copy-btn copied';
-    setTimeout(() => { copyBtn.textContent = '📋 Key хуулах'; copyBtn.className = 'copy-btn'; }, 2000);
+    setTimeout(() => { copyBtn.textContent = t('copyKeyBtn'); copyBtn.className = 'copy-btn'; }, 2000);
 
     const keyPhone = document.getElementById('keyPhone').value.trim();
     const keyEmail = document.getElementById('keyEmail').value.trim();
@@ -949,10 +1145,10 @@ async function generateKey() {
       });
     }
   } catch(e) {
-    err.textContent = '❌ Алдаа: ' + e.message;
+    err.textContent = t('errPrefix') + e.message;
   }
 
-  btn.disabled = false; btn.textContent = '🔑 License Key Үүсгэх';
+  btn.disabled = false; btn.textContent = t('genKeyBtn');
 }
 
 function copyKey() {
@@ -960,12 +1156,12 @@ function copyKey() {
   if (!key) return;
   navigator.clipboard.writeText(key).then(() => {
     const btn = document.getElementById('copyKeyBtn');
-    btn.textContent = '✅ Хуулагдлаа!'; btn.className = 'copy-btn copied';
-    setTimeout(() => { btn.textContent = '📋 Key хуулах'; btn.className = 'copy-btn'; }, 1500);
+    btn.textContent = t('copied'); btn.className = 'copy-btn copied';
+    setTimeout(() => { btn.textContent = t('copyKeyBtn'); btn.className = 'copy-btn'; }, 1500);
   });
 }
 
-// ══ History (Supabase) ════════════════════════════════════
+// History (Supabase)
 async function loadHistory() {
   const { data, error } = await sb
     .from('keygen_history')
@@ -994,11 +1190,8 @@ async function saveHistoryItem(item) {
     created_by:    currentUser?.email || 'unknown'
   };
   const { error } = await sb.from('keygen_history').insert(row);
-  // NB: if the `features` column doesn't exist yet on keygen_history, this
-  // insert fails but the .lic/key itself was already generated & downloaded
-  // above — only the history log entry is lost. Run the ALTER TABLE in
-  // SETUP_GUIDE.md to add the column.
-  if (error) { showToast('⚠ History хадгалж чадсангүй'); console.warn(error); }
+  // fails here if the features column is missing — see SETUP_GUIDE.md
+  if (error) { showToast(t('toastHistSaveFail')); console.warn(error); }
   else { await loadHistory(); }
 }
 
@@ -1009,14 +1202,14 @@ function toggleHist() {
 }
 
 async function clearHist() {
-  if (!hist.length || !confirm('Бүх түүхийг устгах уу?')) return;
+  if (!hist.length || !confirm(t('confirmClearHist'))) return;
   await sb.from('keygen_history').delete().neq('id', 0);
   hist = [];
   renderHist();
 }
 
 function exportHist() {
-  if (!hist.length) { showToast('Түүх хоосон байна.'); return; }
+  if (!hist.length) { showToast(t('toastHistEmpty')); return; }
   const json = JSON.stringify(hist, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
   const url  = URL.createObjectURL(blob);
@@ -1032,7 +1225,7 @@ function renderHist() {
   const count = document.getElementById('histCount');
   count.textContent = hist.length ? `(${hist.length})` : '';
   if (!hist.length) {
-    body.innerHTML = '<div class="hist-empty">// Одоохондоо хоосон байна.</div>';
+    body.innerHTML = `<div class="hist-empty">${t('histEmpty')}</div>`;
     return;
   }
   body.innerHTML = hist.map((item) => {
@@ -1042,12 +1235,12 @@ function renderHist() {
     const who     = item.created_by ? item.created_by.split('@')[0] : '';
     const isPaid  = item.is_paid;
     const featBadge = item.features && item.features.includes('analyze')
-      ? '<span class="hist-badge" style="background:rgba(59,130,246,.15);color:var(--accent)">+ANALYZE</span>' : '';
+      ? '<span class="hist-badge" style="background:rgba(124,92,252,.15);color:var(--accent)">+ANALYZE</span>' : '';
     const orgLine = [item.organization, item.phone, item.email].filter(Boolean).join(' · ');
     const notesLine = item.notes ? `<div class="hist-meta-notes">${item.notes}</div>` : '';
     const orgRow = orgLine ? `<div class="hist-meta">${orgLine}</div>` : '';
     const paidBtn = `<label class="hist-paid-label">
-      <span>${isPaid ? 'Төлсөн' : 'Төлөөгүй'}</span>
+      <span>${isPaid ? t('paidLabel') : t('unpaidLabel')}</span>
     </label>`;
     const keyRow  = item.generated_key ? `
       <div class="hist-key-row">
@@ -1074,7 +1267,7 @@ function renderHist() {
 }
 
 async function deleteHistItem(id) {
-  if (!confirm('Энэ license history-г устгах уу?')) return;
+  if (!confirm(t('confirmDeleteHistItem'))) return;
 
   const { error } = await sb
     .from('keygen_history')
@@ -1082,12 +1275,12 @@ async function deleteHistItem(id) {
     .eq('id', id);
 
   if (error) {
-    showToast('⚠ Устгаж чадсангүй');
+    showToast(t('toastDeleteFail'));
     console.warn(error);
     return;
   }
 
-  showToast('✅ Устгалаа');
+  showToast(t('toastDeleted'));
   await loadHistory();
 }
 
@@ -1097,11 +1290,11 @@ async function deleteSelectedHist() {
     .filter(Boolean);
 
   if (!ids.length) {
-    showToast('Устгах license сонгоно уу.');
+    showToast(t('toastSelectToDelete'));
     return;
   }
 
-  if (!confirm(`${ids.length} license history устгах уу?`)) return;
+  if (!confirm(t('confirmDeleteN', ids.length))) return;
 
   const { error } = await sb
     .from('keygen_history')
@@ -1109,12 +1302,12 @@ async function deleteSelectedHist() {
     .in('id', ids);
 
   if (error) {
-    showToast('⚠ Сонгосон history-г устгаж чадсангүй');
+    showToast(t('toastSelectedDeleteFail'));
     console.warn(error);
     return;
   }
 
-  showToast('✅ Сонгосон history устлаа');
+  showToast(t('toastSelectedDeleted'));
   await loadHistory();
 }
 
@@ -1123,7 +1316,7 @@ async function togglePaid(id, currentVal) {
     .from('keygen_history')
     .update({ is_paid: !currentVal })
     .eq('id', id);
-  if (error) { showToast('⚠ Алдаа гарлаа'); return; }
+  if (error) { showToast(t('toastGenericError')); return; }
   await loadHistory();
 }
 
@@ -1147,9 +1340,9 @@ async function sendLicenseEmail(toEmail, params) {
       machine_id:  params.machine_id  || '—',
       license_key: params.license_key || '—',
     });
-    showToast('✅ Имэйл илгээгдлээ → ' + toEmail);
+    showToast(t('toastEmailSent') + toEmail);
   } catch(e) {
-    showToast('⚠ Имэйл илгээхэд алдаа гарлаа');
+    showToast(t('toastEmailFail'));
     console.warn('EmailJS error:', e);
   }
 }
@@ -1168,27 +1361,8 @@ function toggleLicEmailSection() {
   const end   = document.getElementById('licEnd').value;
   const event = document.getElementById('licEvent').value.trim();
 
-  const subject = `NeuroReplay License - ${org || event}`;
-  const body = `Сайн байна уу,
-
-Таны NeuroReplay license амжилттай үүсгэгдэж, ашиглахад бэлэн боллоо.
-
-License мэдээлэл:
-Байгууллага: ${org || '—'}
-Утас: ${phone || '—'}
-Хүчинтэй хугацаа: ${start} → ${end}
-
-📎 Хавсаргасан .lic файлыг татан авч системдээ импортлон (import) идэвхжүүлнэ үү.
-
-⚠️ Энэхүү license нь зөвхөн таны төхөөрөмжид холбогдсон тул өөр төхөөрөмж дээр ашиглах боломжгүйг анхаарна уу.
-
-License идэвхжүүлэх явцад асуудал гарвал бидэнтэй холбогдоорой.
-
-Баярлалаа.
-
-Хүндэтгэсэн,
-Идэрбат Мягмардорж
-Founder & Creator, NeuroReplay`;
+  const subject = t('emailSubject', org, event);
+  const body = t('emailBody', { org, phone, start, end });
 
   const subjectBtn = document.getElementById('licCopySubject');
   const bodyBtn    = document.getElementById('licCopyBody');
@@ -1217,7 +1391,7 @@ function copyHistKey(btn, key) {
   });
 }
 
-// ══ Toast ══════════════════════════════════════════════════
+// Toast
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
