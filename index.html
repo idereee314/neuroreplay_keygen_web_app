@@ -384,6 +384,9 @@ body::before {
 }
 .paid-check-label:has(input:checked) { color: var(--green); }
 
+.mode-check-label input[type=checkbox] { accent-color: var(--accent2); }
+.mode-check-label:has(input:checked) { color: var(--accent2); }
+
 .lic-copy-part-btn {
   padding: 5px 12px;
   border: 1px solid rgba(16,217,138,.25);
@@ -539,9 +542,17 @@ body::before {
       </div>
       <div class="field">
         <label>Features</label>
-        <div style="display:flex;gap:16px;margin-top:4px">
+        <div style="display:flex;gap:16px;margin-top:4px;flex-wrap:wrap">
           <label class="paid-check-label"><input type="checkbox" id="licFeatCompetition" checked disabled /><span>Competition</span></label>
           <label class="paid-check-label"><input type="checkbox" id="licFeatAnalyze" /><span>Analyze</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label data-i18n="modes" style="color:var(--accent2)">Горим</label>
+        <div style="display:flex;gap:16px;margin-top:4px;flex-wrap:wrap">
+          <label class="paid-check-label mode-check-label"><input type="checkbox" id="licFeatMinimal" /><span>Minimal</span></label>
+          <label class="paid-check-label mode-check-label"><input type="checkbox" id="licFeatLegacy" /><span>Legacy</span></label>
+          <label class="paid-check-label mode-check-label"><input type="checkbox" id="licFeatMultiview" /><span>Multiview</span></label>
         </div>
       </div>
       <label class="paid-check-label"><input type="checkbox" id="licIsPaid" onchange="toggleLicEmailSection()" /><span data-i18n="paid">Төлбөр төлсөн</span></label>
@@ -611,9 +622,17 @@ body::before {
       </div>
       <div class="field">
         <label>Features</label>
-        <div style="display:flex;gap:16px;margin-top:4px">
+        <div style="display:flex;gap:16px;margin-top:4px;flex-wrap:wrap">
           <label class="paid-check-label"><input type="checkbox" id="keyFeatCompetition" checked disabled /><span>Competition</span></label>
           <label class="paid-check-label"><input type="checkbox" id="keyFeatAnalyze" /><span>Analyze</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label data-i18n="modes" style="color:var(--accent2)">Горим</label>
+        <div style="display:flex;gap:16px;margin-top:4px;flex-wrap:wrap">
+          <label class="paid-check-label mode-check-label"><input type="checkbox" id="keyFeatMinimal" /><span>Minimal</span></label>
+          <label class="paid-check-label mode-check-label"><input type="checkbox" id="keyFeatLegacy" /><span>Legacy</span></label>
+          <label class="paid-check-label mode-check-label"><input type="checkbox" id="keyFeatMultiview" /><span>Multiview</span></label>
         </div>
       </div>
       <label class="paid-check-label"><input type="checkbox" id="keyIsPaid" onchange="toggleKeyPaidFields()" /><span data-i18n="paid">Төлбөр төлсөн</span></label>
@@ -684,6 +703,7 @@ const I18N = {
     phone: 'Утас',
     notes: 'Тэмдэглэл',
     notesPh: 'Нэмэлт мэдээлэл...',
+    modes: 'Горим',
     paid: 'Төлбөр төлсөн',
     licReady: '// .lic файл бэлэн боллоо',
     dlLicBtn: '↓ .lic Файл татах',
@@ -767,6 +787,7 @@ Founder & Creator, NeuroReplay`,
     phone: 'Phone',
     notes: 'Notes',
     notesPh: 'Additional info...',
+    modes: 'Modes',
     paid: 'Payment Received',
     licReady: '// .lic file ready',
     dlLicBtn: '↓ Download .lic File',
@@ -1014,7 +1035,10 @@ async function generateLic() {
   const licNotes = document.getElementById('licNotes').value.trim();
   const licIsPaid = document.getElementById('licIsPaid').checked;
   const features = ['competition'];
-  if (document.getElementById('licFeatAnalyze').checked) features.push('analyze');
+  if (document.getElementById('licFeatAnalyze').checked)   features.push('analyze');
+  if (document.getElementById('licFeatMinimal').checked)   features.push('minimal');
+  if (document.getElementById('licFeatLegacy').checked)    features.push('legacy');
+  if (document.getElementById('licFeatMultiview').checked) features.push('multiview');
 
   if (licIsPaid) {
     if (!licOrg) {
@@ -1093,7 +1117,10 @@ async function generateKey() {
   const keyOrg   = document.getElementById('keyOrg').value.trim();
   const keyIsPaid = document.getElementById('keyIsPaid').checked;
   const features = ['competition'];
-  if (document.getElementById('keyFeatAnalyze').checked) features.push('analyze');
+  if (document.getElementById('keyFeatAnalyze').checked)   features.push('analyze');
+  if (document.getElementById('keyFeatMinimal').checked)   features.push('minimal');
+  if (document.getElementById('keyFeatLegacy').checked)    features.push('legacy');
+  if (document.getElementById('keyFeatMultiview').checked) features.push('multiview');
 
   if (keyIsPaid) {
     if (!keyOrg) {
@@ -1234,8 +1261,10 @@ function renderHist() {
     const dates   = `${item.start_date}→${item.end_date}`;
     const who     = item.created_by ? item.created_by.split('@')[0] : '';
     const isPaid  = item.is_paid;
-    const featBadge = item.features && item.features.includes('analyze')
-      ? '<span class="hist-badge" style="background:rgba(124,92,252,.15);color:var(--accent)">+ANALYZE</span>' : '';
+    const extraFeats = (item.features || '').split(',').filter(f => f && f !== 'competition');
+    const featBadge = extraFeats.map(f =>
+      `<span class="hist-badge" style="background:rgba(124,92,252,.15);color:var(--accent)">+${f.toUpperCase()}</span>`
+    ).join('');
     const orgLine = [item.organization, item.phone, item.email].filter(Boolean).join(' · ');
     const notesLine = item.notes ? `<div class="hist-meta-notes">${item.notes}</div>` : '';
     const orgRow = orgLine ? `<div class="hist-meta">${orgLine}</div>` : '';

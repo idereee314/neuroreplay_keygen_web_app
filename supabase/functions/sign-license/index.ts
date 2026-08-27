@@ -67,7 +67,7 @@ function encodeToken(obj: Record<string, unknown>): string {
 }
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-const ALL_FEATURES = ["competition", "analyze"];
+const ALL_FEATURES = ["competition", "analyze", "minimal", "legacy", "multiview"];
 
 // Mirrors license.js's normalizeFeatures() exactly — dedupe, drop anything
 // not in the known set, sort, so both sides sign/verify the same string.
